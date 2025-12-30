@@ -1,1 +1,17 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'bootstrap/scss/bootstrap';
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    // justify-content: center;
+    align-items: center;
+    // background-color: gray;
+    // width: auto;
+    height: 100vh;
+}

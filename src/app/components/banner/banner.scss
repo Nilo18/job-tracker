@@ -1,0 +1,38 @@
+@use '../../styles/mixins.scss' as *;
+
+.banner {
+    width: 100%;
+    height: 660px;
+    background-image: url('/assets/jtbanner.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    @include FlexContainer;
+
+    .banner-content {
+        @include FlexContainerColumn;
+        gap: 10px;
+        color: white;
+
+        h1 {
+            font-size: 80px;
+        }
+
+        p {
+            font-size: 32px;
+        }
+
+        .banner-content-button {
+            width: 200px;
+            height: 53px;
+            border: none;
+            background-color: rgb(198 63 95);
+            color: white;
+            font-weight: bold;
+            transition: 0.15s ease-in-out;
+        }
+        
+        .banner-content-button:hover {
+            background-color: rgb(164, 53, 79);
+        }
+    }
+}

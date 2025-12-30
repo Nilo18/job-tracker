@@ -4,14 +4,26 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    // outline: 1px solid red;
+    // overflow-x: hidden;
 }
 
 body {
     display: flex;
     flex-direction: column;
     // justify-content: center;
-    align-items: center;
+    align-items: stretch;
     // background-color: gray;
     // width: auto;
-    height: 100vh;
+    min-height: 100vh;
+    height: auto;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+.cont {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

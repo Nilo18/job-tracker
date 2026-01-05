@@ -1,7 +1,18 @@
-<header class="header">
-    <img class="header-logo" src="/assets/headerLogo2.png" alt="Header logo" draggable="false">
-    <div class="header-login" routerLink="/login">
-        <img src="/assets/profIcon.png" alt="Profile icon" draggable="false">
-        <p>Login</p>
-    </div>
+<header class="header" [style.background-color]="loggedIn ? '#0d6efd' : 'white'">
+    <img class="header-logo" [src]="!loggedIn? '/assets/headerLogo2.png' : '/assets/headerLogoWhite.png'" 
+    alt="Header logo" draggable="false">
+    @if (!loggedIn) {
+        <div class="header-login" routerLink="/login">
+            <img src="/assets/profIcon.png" alt="Profile icon" draggable="false">
+            <p>Login</p>
+        </div>
+    } @else {
+        <div class="header-searchbar">
+            <app-search-bar></app-search-bar>
+        </div>
+        <div class="header-profile d-flex justify-content-center align-items-center gap-3">
+            <mat-icon>notifications</mat-icon>
+            <img [src]="userData.picture ? userData.picture : '/assets/profIconGray.png'" alt="Profile image">
+        </div>
+    }
 </header>

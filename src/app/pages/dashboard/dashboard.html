@@ -1,1 +1,9 @@
-<p>dashboard works!</p>
+<app-header [loggedIn]="showLoggedInHeader" [userData]="data"></app-header>
+<div class="cont">
+    <div class="dashboard d-flex flex-column mt-5">
+        <!-- <img [src]="data.picture" alt="Profile image"> -->
+        <p>Hello {{data.name}}!</p>
+        <!-- <p ngbTooltip="User email">{{data.email}}</p> -->
+         
+    </div>
+</div>

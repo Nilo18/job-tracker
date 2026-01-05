@@ -13,6 +13,9 @@ import { Settings } from './pages/settings/settings';
 import { SearchPage } from './pages/search-page/search-page';
 import { Header } from './components/header/header';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HttpClientModule } from '@angular/common/http';
+import { OAuthModule } from 'angular-oauth2-oidc';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -30,7 +33,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgbModule
+    NgbModule,
+    HttpClientModule,
+    OAuthModule.forRoot(),
+    MatIconModule
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),

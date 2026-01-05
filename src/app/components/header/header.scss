@@ -4,7 +4,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100vw;
+    width: 100%;
     height: 75px;
     padding-left: 50px;
     padding-right: 85px;
@@ -34,6 +34,23 @@
         p {
             color: #448DCC;
             margin-bottom: 0;
+        }
+    }
+
+    .header-searchbar {
+        width: clamp(20rem, 100%, 50rem);
+    }
+
+    .header-profile {
+        mat-icon {
+            cursor: pointer;
+        }
+
+        img {
+            width: 30px;
+            height: 30px;
+            border-radius: 15px;
+            cursor: pointer;
         }
     }
 }

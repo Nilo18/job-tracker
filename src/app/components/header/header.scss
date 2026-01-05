@@ -1,3 +1,5 @@
+@use "../../styles/mixins.scss" as *;
+
 .header {
     display: flex;
     justify-content: space-between;
@@ -8,9 +10,30 @@
     padding-right: 85px;
 
     img {
+        user-select: none;
+    }
+
+    .header-logo {
         width: 200px;
         height: 75px;
         object-fit: cover;
         cursor: pointer;
+    }
+
+    .header-login {
+        @include FlexContainer;
+        gap: 20px;
+        cursor: pointer;
+        height: 75px;
+
+        img {
+            width: 30px;
+            height: 30px;
+        }
+
+        p {
+            color: #448DCC;
+            margin-bottom: 0;
+        }
     }
 }

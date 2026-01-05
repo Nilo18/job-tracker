@@ -1,8 +1,8 @@
 @use '../../styles/mixins.scss' as *;
 
 .banner {
-    width: 100%;
-    height: 660px;
+    width: 100%; // Change to 100% in the future maybe
+    height: 100vh;
     background-image: url('/assets/jtbanner.png');
     background-repeat: no-repeat;
     background-size: cover;
@@ -12,13 +12,15 @@
         @include FlexContainerColumn;
         gap: 10px;
         color: white;
+        // word-wrap: break-word;
+        text-align: center;
 
         h1 {
-            font-size: 80px;
+            font-size: clamp(2.5rem, 6vw, 5rem);
         }
 
         p {
-            font-size: 32px;
+            font-size: clamp(1.25rem, 3vw, 2rem);
         }
 
         .banner-content-button {

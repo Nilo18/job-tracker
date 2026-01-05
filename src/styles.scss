@@ -27,3 +27,11 @@ body {
     justify-content: center;
     align-items: center;
 }
+
+.basic-btn-style {
+    border: none;
+    background-color: rgb(198 63 95);
+    color: white;
+    font-weight: bold;
+    transition: 0.15s ease-in-out;
+}

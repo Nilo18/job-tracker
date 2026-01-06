@@ -1,9 +1,66 @@
 <app-header [loggedIn]="showLoggedInHeader" [userData]="data"></app-header>
 <div class="cont">
-    <div class="dashboard d-flex flex-column mt-5">
+    <div class="dashboard d-flex flex-column gap-4 mt-5">
         <!-- <img [src]="data.picture" alt="Profile image"> -->
-        <p>Hello {{data.name}}!</p>
+        <h1>Hello {{data.name}}!</h1>
         <!-- <p ngbTooltip="User email">{{data.email}}</p> -->
-         
+         <section class="dashboard-stats">
+            <div class="dashboard-stats-card card d-flex justify-content-center align-items-center">
+                <div class="card-body d-flex flex-column justify-content-center align-items-start gap-4">
+                    <h5 class="card-title">Total Applications</h5>
+                    <h1 class="card-subtitle mb-2 text-body-secondary">25</h1>
+                </div>
+            </div>
+            <div class="dashboard-stats-card card d-flex justify-content-center align-items-center">
+                <div class="card-body d-flex flex-column justify-content-center align-items-start gap-4">
+                    <h5 class="card-title">Accepted Applications</h5>
+                    <h1 class="card-subtitle mb-2 text-body-secondary">18</h1>
+                </div>
+            </div>
+            <div class="dashboard-stats-card card d-flex justify-content-center align-items-center">
+                <div class="card-body d-flex flex-column justify-content-center align-items-start gap-4">
+                    <h5 class="card-title">Rejected Applications</h5>
+                    <h1 class="card-subtitle mb-2 text-body-secondary">5</h1>
+                </div>
+            </div>
+            <div class="dashboard-stats-card card d-flex justify-content-center align-items-center">
+                <div class="card-body d-flex flex-column justify-content-center align-items-start gap-4">
+                    <h5 class="card-title">Pending Applications</h5>
+                    <h1 class="card-subtitle mb-2 text-body-secondary">2</h1>
+                </div>
+            </div>
+         </section>
+         <section class="dashboard-applications">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Company name</th>
+                        <th scope="col">Date sent</th>
+                        <th scope="col">Response</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td style="color: green">Accepted</td>
+                    </tr>
+                    <tr>    
+                        <th scope="row">2</th>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td style="color: rgb(210, 210, 0)">Pending</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td style="color: red">Rejected</td>
+                    </tr>
+                </tbody>
+            </table>
+         </section>
     </div>
 </div>

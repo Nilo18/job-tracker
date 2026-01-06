@@ -18,18 +18,22 @@ export class GoogleApiService {
 
   constructor() { }
 
-  authWithGoogle() {
+  async authWithGoogle(): Promise<void> {
+    try {
       this.oAuthService.configure(oAuthConfig)
-      this.oAuthService.loadDiscoveryDocument().then(() => {
-        this.oAuthService.tryLoginImplicitFlow().then(() => {
-          if (!this.oAuthService.hasValidAccessToken()) {
-            this.oAuthService.initLoginFlow()
-          } else {
-            this.oAuthService.loadUserProfile().then((userProfile) => {
-              console.log(JSON.stringify(userProfile))
-            })
-          }
-        }).catch(err => console.log("Couldn't do implicit login: ", err))
-    }).catch(err => console.log("Couldn't load discovery document: ", err))
+
+      await this.oAuthService.loadDiscoveryDocument()
+      await this.oAuthService.tryLoginImplicitFlow()
+
+      if (!this.oAuthService.hasValidAccessToken()) {
+        this.oAuthService.initLoginFlow()
+        return
+      } 
+
+      const userProfile = await this.oAuthService.loadUserProfile()
+      console.log(userProfile)
+    } catch (error) {
+      console.log("Couldn't auth with google: ", error)
+    }
   }
 }

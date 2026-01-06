@@ -1,0 +1,38 @@
+@use "../../styles/mixins.scss" as *;
+
+.dashboard {
+    width: 63rem;
+    min-height: 37.5rem;
+    // border: 1px solid;
+
+    .dashboard-stats {
+        width: 100%;
+        height: auto;
+        // @include FlexContainer;
+        display: flex;
+        // justify-content: space-evenly;
+        // align-items: center;
+        gap: 1rem;
+
+        .dashboard-stats-card {
+            width: 15rem;
+            min-height: 9.375rem;
+
+            h5 {
+                color: #0d6efd;
+            }
+
+            .card-body {
+                width: 100%;
+            }
+        }
+    }
+
+    .dashboard-applications {
+        table {
+            tr {
+                text-align: center;
+            }
+        }
+    }
+}

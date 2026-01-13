@@ -2,11 +2,11 @@
 
 @if (queryVal !== '') {
   <div class="search-results" *ngIf="results$ | async as results">
-    @if (results.data.results.length === 0) {
+    @if (results.data.length === 0) {
       <p>No results found.</p>
     }
 
-    @for (job of results.data.results; track job.id) {
+    @for (job of results.data; track job.id) {
       <div class="search-result">
         <a [href]="job.url">{{ job.role }} — {{ job.company_name }}</a>
       </div>

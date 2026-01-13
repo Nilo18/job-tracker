@@ -17,6 +17,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
+import { JobApplicationAddModal } from './components/job-application-add-modal/job-application-add-modal';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     Login,
     Settings,
     SearchPage,
-    Header
+    Header,
+    JobApplicationAddModal
   ],
   imports: [
     BrowserModule,

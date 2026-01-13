@@ -1,6 +1,9 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { jwtDecode } from 'jwt-decode';
+import { JobApplicationAddModal } from '../../components/job-application-add-modal/job-application-add-modal';
+import { JobApplication, JobService } from '../../services/job-service';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,10 +14,13 @@ import { jwtDecode } from 'jwt-decode';
 export class Dashboard {
   data: any = {}
   showLoggedInHeader: boolean = false
+  showModal: boolean = false
+  jobs: JobApplication[] = []
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(@Inject(PLATFORM_ID) private platformId: Object, private modalService: NgbModal, 
+  public jobsService: JobService) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
       // console.log(window.location.hash)
       const hash = window.location.hash.substring(1) // Remove #
@@ -26,8 +32,27 @@ export class Dashboard {
       this.data = data
       this.showLoggedInHeader = true
       console.log("showLoggedInHeader is: ", this.showLoggedInHeader)
-      console.log(data)
-      console.log(this.data)
+      // console.log(data)
+      // console.log(this.data)
     }
+
+    const originalJobs = await this.jobsService.getJobApplications()
+    this.jobs = originalJobs.map(job => ({
+      ...job,
+      date_sent: new Date(job.date_sent).toLocaleDateString()
+    }))
+
+    console.log("Received the jobs array in dashboard.ts: ", this.jobs.map(job => ({
+      ...job,
+      date_sent: new Date(job.date_sent).toLocaleDateString()
+    })))
+  }
+
+  showAddModal() {
+    this.modalService.open(JobApplicationAddModal, {
+      centered: true,
+      size: 'lg',
+      backdrop: 'static'
+    })
   }
 }

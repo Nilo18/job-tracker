@@ -41,26 +41,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td style="color: green">Accepted</td>
-                    </tr>
-                    <tr>    
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td style="color: rgb(210, 210, 0)">Pending</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>John</td>
-                        <td>Doe</td>
-                        <td style="color: red">Rejected</td>
-                    </tr>
+                    @for (job of jobs; track job.date_sent; let i = $index) {
+                        <tr>
+                            <th scope="row">{{i + 1}}</th>
+                            <td>{{job.company_name}}</td>
+                            <td>{{job.date_sent}}</td>
+                            <td>{{job.status}}</td>
+                        </tr>
+                    }
                 </tbody>
             </table>
+            <div class="dashboard-addapplication-btn-container">
+                <button (click)="showAddModal()">+</button>
+            </div>
          </section>
     </div>
 </div>

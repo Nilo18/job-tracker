@@ -1,41 +1,43 @@
-<div class="modal-header">
-  <h4 class="modal-title">New application</h4>
-  <button
-    type="button"
-    class="btn-close"
-    aria-label="Close"
-    (click)="activeModal.dismiss()">
-  </button>
-</div>
-
-<div class="modal-body">
-  <form>
-    <div class="mb-3">
-      <label class="form-label">Company name</label>
-      <input class="form-control" />
+ <form [formGroup]="jobappform" (ngSubmit)="onSubmit()">
+    <div class="modal-header">
+    <h4 class="modal-title">New application</h4>
+    <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        (click)="activeModal.dismiss()">
+    </button>
     </div>
 
-    <div class="d-flex flex-column mb-3">
-      <label class="form-label">Date sent</label>
-      <input type="date" class="form-control">
+    <div class="modal-body">
+    <!-- <form> -->
+        <div class="mb-3">
+            <label class="form-label">Company name</label>
+            <input class="form-control" type="text" formControlName="company_name"/>
+        </div>
+
+        <div class="d-flex flex-column mb-3">
+            <label class="form-label">Date sent</label>
+            <input type="date" class="form-control" formControlName="date_sent">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Status</label>
+            <select name="status" class="form-control" formControlName="status">
+                <option value="Pending">Pending</option>
+                <option value="Rejected">Rejected</option>
+                <option value="Accepted">Accepted</option>
+            </select>
+        </div>
+    <!-- </form> -->
     </div>
 
-    <div class="mb-3">
-        <label class="form-label">Status</label>
-        <select name="status" class="form-control">
-            <option value="pending">Pending</option>
-            <option value="rejected">Rejected</option>
-            <option value="Accepted">Accepted</option>
-        </select>
+    <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="activeModal.dismiss()">
+            Close
+        </button>
+        <button class="btn btn-primary" (click)="activeModal.close()" type="submit">
+            Add
+        </button>
     </div>
-  </form>
-</div>
-
-<div class="modal-footer">
-  <button class="btn btn-secondary" (click)="activeModal.dismiss()">
-    Close
-  </button>
-  <button class="btn btn-primary" (click)="activeModal.close()">
-    Add
-  </button>
-</div>
+</form>

@@ -40,7 +40,7 @@ import { JobApplicationAddModal } from './components/job-application-add-modal/j
     HttpClientModule,
     OAuthModule.forRoot(),
     MatIconModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),

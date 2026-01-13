@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { jwtDecode } from 'jwt-decode';
 import { JobApplicationAddModal } from '../../components/job-application-add-modal/job-application-add-modal';
 import { JobApplication, JobService } from '../../services/job-service';
+import { map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,7 +16,7 @@ export class Dashboard {
   data: any = {}
   showLoggedInHeader: boolean = false
   showModal: boolean = false
-  jobs: JobApplication[] = []
+  jobs$!: Observable<JobApplication[]>;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object, private modalService: NgbModal, 
   public jobsService: JobService) {}
@@ -35,17 +36,16 @@ export class Dashboard {
       // console.log(data)
       // console.log(this.data)
     }
-
-    const originalJobs = await this.jobsService.getJobApplications()
-    this.jobs = originalJobs.map(job => ({
-      ...job,
-      date_sent: new Date(job.date_sent).toLocaleDateString()
-    }))
-
-    console.log("Received the jobs array in dashboard.ts: ", this.jobs.map(job => ({
-      ...job,
-      date_sent: new Date(job.date_sent).toLocaleDateString()
-    })))
+    
+    this.jobsService.getJobApplications()
+    this.jobs$ = this.jobsService.jobsObs$.pipe(
+      map(jobs =>
+        jobs.map((job: JobApplication) => ({
+          ...job,
+          date_sent: new Date(job.date_sent).toLocaleDateString()
+        }))
+      )
+    );
   }
 
   showAddModal() {

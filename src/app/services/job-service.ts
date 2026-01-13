@@ -1,17 +1,23 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { EMPTY, firstValueFrom, map, Observable } from 'rxjs';
+import { BehaviorSubject, EMPTY, firstValueFrom, map, Observable } from 'rxjs';
 
 export interface JobApplication {
-  userId: string,
+  _id?: string,
+  userId?: string,
   company_name: string,
   date_sent: Date | string,
-  status: string
+  status: 'pending' | 'rejected' | 'accepted'
 }
 
 export interface JobApplicationResponse {
   status: number,
   jobs: JobApplication[]
+}
+
+export interface NewlyAddedApplicationResponse {
+  status: number,
+  jobApp: JobApplication
 }
 
 @Injectable({
@@ -21,6 +27,8 @@ export class JobService {
   // query=Frontend Developer&page=1&num_pages=1&country=georgia
   private baseUrl = 'http://localhost:3000/api'
   private http = inject(HttpClient)
+  private jobsSubject: BehaviorSubject<any> = new BehaviorSubject<any[]>([])
+  public jobsObs$ = this.jobsSubject.asObservable()
 
   search(query: string): Observable<any> {
     console.log(query)
@@ -39,7 +47,22 @@ export class JobService {
     try {
       const res = await firstValueFrom(this.http.get<JobApplicationResponse>(`${this.baseUrl}/jobs`))
       console.log('The job applications are: ', res)
+      console.log("The jobs inside the GET response are: ", res.jobs)
+      this.jobsSubject.next(res.jobs)
       return res.jobs
+    } catch (error) {
+      console.log("Couldn't get job applications: ", error)
+      throw error
+    }
+  }
+
+  async addJobApplication(newApplication: JobApplication) {
+    try {
+      const res = await firstValueFrom(this.http.post<NewlyAddedApplicationResponse>(`${this.baseUrl}/jobs`, newApplication))
+      console.log('The new job was added to the database: ', res)
+      const current = this.jobsSubject.getValue()
+      this.jobsSubject.next([...current, res.jobApp])
+      return res
     } catch (error) {
       console.log("Couldn't get job applications: ", error)
       throw error

@@ -32,6 +32,25 @@
         table {
             tr {
                 text-align: center;
+                // display: flex;
+                // justify-content: center;
+                // align-items: center;
+
+                .dashboard-apptable-td {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 5px;
+                    // vertical-align: middle;
+                    mat-icon {
+                        cursor: pointer;
+                    }
+
+                    input {
+                        height: 25px;
+                        width: 140px;
+                    }
+                }
             }
 
             tbody {

@@ -43,11 +43,41 @@
                 </thead>
                 <tbody>
                     @for (job of jobs$ | async; track job._id; let i = $index) {
-                        <tr>
+                        <tr class="dashboard-apptable-tr">
                             <th scope="row">{{i + 1}}</th>
-                            <td>{{job.company_name}}</td>
-                            <td>{{job.date_sent}}</td>
-                            <td>{{job.status}}</td>
+                            <td>
+                                <div class="dashboard-apptable-td">
+                                    @if (!showNameInputs[i]) {
+                                        {{ job.company_name }}
+                                    }  @else {
+                                        <input type="text" class="form-control">
+                                    }  
+                                        
+                                    <mat-icon (click)="toggleNameEditInput(job?._id)">edit</mat-icon>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="dashboard-apptable-td">
+                                    @if (!showDateInputs[i]) {
+                                        {{job.date_sent}}
+                                    }  @else {
+                                        <input type="date" class="form-control">
+                                    }  
+
+                                    <mat-icon (click)="toggleDateEditInput(job?._id)">edit</mat-icon>       
+                                </div>
+                            </td>
+                            <td>
+                                <div class="dashboard-apptable-td">
+                                    @if (!showStatusInputs[i]) {
+                                        {{job.status}}
+                                    }  @else {
+                                        <input type="text" class="form-control">
+                                    }  
+
+                                    <mat-icon (click)="toggleStatusEditInput(job?._id)">edit</mat-icon>       
+                                </div>  
+                            </td>
                             <td (click)="deleteJobApp(job._id)">
                                 <button class="custom-table-btn">
                                     Remove

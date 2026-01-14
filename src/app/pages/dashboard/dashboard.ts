@@ -17,6 +17,12 @@ export class Dashboard {
   showLoggedInHeader: boolean = false
   showModal: boolean = false
   jobs$!: Observable<JobApplication[]>;
+  /* These three are an array of flags for controlling their respective property editing in the table */
+  showNameInputs: boolean[] = []
+  showDateInputs: boolean[] = []
+  showStatusInputs: boolean[] = []
+  /* ------------------------------- */
+  jobsArr: JobApplication[] = []
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object, private modalService: NgbModal, 
   public jobsService: JobService) {}
@@ -47,6 +53,22 @@ export class Dashboard {
         }))
       )
     );
+    // const jobsSubj = this.jobsService.jobsSubject.getValue()
+    this.jobs$.subscribe(jobs => {
+      // this.showEditInputs.length = jobs.length  
+      this.jobsArr = jobs
+      console.log("The jobsArr is: ", this.jobsArr)
+      this.showNameInputs = new Array(jobs.length).fill(false)
+      this.showDateInputs = new Array(jobs.length).fill(false)
+      this.showStatusInputs = new Array(jobs.length).fill(false)
+      console.log("showEditInputs length is: ", this.showNameInputs.length)
+      console.log("showEditInputs values are: ", this.showNameInputs)
+    })
+    // if (jobsSubj && jobsSubj.length > 0) {
+    //   console.log("jobsSubject inside dashboard component is: ", jobsSubj)
+    
+    //   console.log("showEditInputs length is: ", this.showEditInputs.length)
+    // }
   }
 
   showAddModal(event: MouseEvent) {
@@ -64,5 +86,56 @@ export class Dashboard {
   deleteJobApp(id: string | undefined) {
     console.log("I run")
     this.jobsService.deleteJobApplication(id)
+  }
+
+  toggleNameEditInput(id: string | undefined) {
+    if (!id) {
+      console.log("Invalid id: ", id)
+      return
+    }
+
+    const index = this.jobsArr.findIndex(job => job._id === id)
+
+    if (index === -1) {
+      console.log("Job not found (findIndex returned -1).")
+      return
+    }
+
+    console.log(`Showing input for showEditInput[${index}]`)
+    this.showNameInputs[index] = !this.showNameInputs[index]
+  }
+
+  toggleDateEditInput(id: string | undefined) {
+    if (!id) {
+      console.log("Invalid id: ", id)
+      return
+    }
+
+    const index = this.jobsArr.findIndex(job => job._id === id)
+
+    if (index === -1) {
+      console.log("Job not found (findIndex returned -1).")
+      return
+    }
+
+    console.log(`Showing input for showEditInput[${index}]`)
+    this.showDateInputs[index] = !this.showDateInputs[index]
+  }
+
+  toggleStatusEditInput(id: string | undefined) {
+    if (!id) {
+      console.log("Invalid id: ", id)
+      return
+    }
+
+    const index = this.jobsArr.findIndex(job => job._id === id)
+
+    if (index === -1) {
+      console.log("Job not found (findIndex returned -1).")
+      return
+    }
+
+    console.log(`Showing input for showEditInput[${index}]`)
+    this.showStatusInputs[index] = !this.showStatusInputs[index]
   }
 }

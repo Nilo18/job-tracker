@@ -27,7 +27,7 @@ export class JobService {
   // query=Frontend Developer&page=1&num_pages=1&country=georgia
   private baseUrl = 'http://localhost:3000/api'
   private http = inject(HttpClient)
-  private jobsSubject: BehaviorSubject<any> = new BehaviorSubject<any[]>([])
+  public jobsSubject: BehaviorSubject<any> = new BehaviorSubject<any[]>([])
   public jobsObs$ = this.jobsSubject.asObservable()
 
   search(query: string): Observable<any> {

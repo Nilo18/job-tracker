@@ -33,6 +33,23 @@
             tr {
                 text-align: center;
             }
+
+            tbody {
+                .custom-table-btn {
+                    border: none;
+                    color: white;
+                    background-color: rgb(243, 58, 58);
+                    width: 4rem;
+                    height: 1.5rem;
+                    border-radius: 4px;
+                    transition: 0.15s ease-in-out;
+                }
+
+                .custom-table-btn:hover {
+                    background-color: rgb(208, 47, 47);
+
+                }
+            }
         }
 
         .dashboard-addapplication-btn-container {

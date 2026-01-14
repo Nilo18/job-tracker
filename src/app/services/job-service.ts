@@ -15,7 +15,7 @@ export interface JobApplicationResponse {
   jobs: JobApplication[]
 }
 
-export interface NewlyAddedApplicationResponse {
+export interface EditedApplicationResponse {
   status: number,
   jobApp: JobApplication
 }
@@ -58,13 +58,27 @@ export class JobService {
 
   async addJobApplication(newApplication: JobApplication) {
     try {
-      const res = await firstValueFrom(this.http.post<NewlyAddedApplicationResponse>(`${this.baseUrl}/jobs`, newApplication))
+      const res = await firstValueFrom(this.http.post<EditedApplicationResponse>(`${this.baseUrl}/jobs`, newApplication))
       console.log('The new job was added to the database: ', res)
       const current = this.jobsSubject.getValue()
       this.jobsSubject.next([...current, res.jobApp])
       return res
     } catch (error) {
-      console.log("Couldn't get job applications: ", error)
+      console.log("Couldn't add job application: ", error)
+      throw error
+    }
+  }
+
+  async deleteJobApplication(id: string | undefined) {
+    try {
+      const res = await firstValueFrom(this.http.delete<EditedApplicationResponse>(`${this.baseUrl}/jobs/${id}`))
+      const current = this.jobsSubject.getValue()
+      const newTasks = current.filter((job: any) => job._id !== id)
+      this.jobsSubject.next(newTasks)
+      console.log(res)
+      return res
+    } catch (error) {
+      console.log("Couldn't delete job application: ", error)
       throw error
     }
   }

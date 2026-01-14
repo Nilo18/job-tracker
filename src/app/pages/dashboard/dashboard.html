@@ -38,6 +38,7 @@
                         <th scope="col">Company name</th>
                         <th scope="col">Date sent</th>
                         <th scope="col">Response</th>
+                        <th scope="col">Operations</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -47,12 +48,17 @@
                             <td>{{job.company_name}}</td>
                             <td>{{job.date_sent}}</td>
                             <td>{{job.status}}</td>
+                            <td (click)="deleteJobApp(job._id)">
+                                <button class="custom-table-btn">
+                                    Remove
+                                </button>
+                            </td>
                         </tr>
                     }
                 </tbody>
             </table>
             <div class="dashboard-addapplication-btn-container">
-                <button (click)="showAddModal()">+</button>
+                <button type="button" (click)="showAddModal($event)">+</button>
             </div>
          </section>
     </div>

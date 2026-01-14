@@ -4,7 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { jwtDecode } from 'jwt-decode';
 import { JobApplicationAddModal } from '../../components/job-application-add-modal/job-application-add-modal';
 import { JobApplication, JobService } from '../../services/job-service';
-import { map, Observable } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -39,6 +39,7 @@ export class Dashboard {
     
     this.jobsService.getJobApplications()
     this.jobs$ = this.jobsService.jobsObs$.pipe(
+      tap(jobs => console.log(`The jobs are: `, jobs)),
       map(jobs =>
         jobs.map((job: JobApplication) => ({
           ...job,
@@ -48,11 +49,20 @@ export class Dashboard {
     );
   }
 
-  showAddModal() {
+  showAddModal(event: MouseEvent) {
+    // console.log(event);
+    // return
+    (event.target as HTMLElement).blur()
+
     this.modalService.open(JobApplicationAddModal, {
       centered: true,
       size: 'lg',
       backdrop: 'static'
     })
+  }
+
+  deleteJobApp(id: string | undefined) {
+    console.log("I run")
+    this.jobsService.deleteJobApplication(id)
   }
 }

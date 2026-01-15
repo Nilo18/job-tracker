@@ -50,7 +50,8 @@
                                     @if (!showNameInputs[i]) {
                                         {{ job.company_name }}
                                     }  @else {
-                                        <input type="text" class="form-control">
+                                        <input type="text" class="form-control" [formControl]="companyNameControl" 
+                                        (keydown.enter)="editJobApp(job._id, 'company_name', companyNameControl.value)">
                                     }  
                                         
                                     <mat-icon (click)="toggleNameEditInput(job?._id)">edit</mat-icon>
@@ -61,7 +62,8 @@
                                     @if (!showDateInputs[i]) {
                                         {{job.date_sent}}
                                     }  @else {
-                                        <input type="date" class="form-control">
+                                        <input type="date" class="form-control" [formControl]="dateControl"
+                                        (change)="editJobApp(job._id, 'date_sent', dateControl.value)">
                                     }  
 
                                     <mat-icon (click)="toggleDateEditInput(job?._id)">edit</mat-icon>       
@@ -72,7 +74,12 @@
                                     @if (!showStatusInputs[i]) {
                                         {{job.status}}
                                     }  @else {
-                                        <input type="text" class="form-control">
+                                        <select class="form-select" [formControl]="statusControl"
+                                            (change)="editJobApp(job._id, 'status', statusControl.value)">
+                                            <option value="Pending">Pending</option>
+                                            <option value="Rejected">Rejected</option>
+                                            <option value="Accepted">Accepted</option>
+                                        </select>
                                     }  
 
                                     <mat-icon (click)="toggleStatusEditInput(job?._id)">edit</mat-icon>       

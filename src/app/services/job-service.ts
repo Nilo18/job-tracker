@@ -20,6 +20,12 @@ export interface EditedApplicationResponse {
   jobApp: JobApplication
 }
 
+export interface ApplicationUpdateProperties {
+  id: string,
+  field: string,
+  newValue: string | null
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -65,6 +71,21 @@ export class JobService {
       return res
     } catch (error) {
       console.log("Couldn't add job application: ", error)
+      throw error
+    }
+  }
+
+  async updateJobApplication(properties: ApplicationUpdateProperties) {
+    try {
+      const res = await firstValueFrom(this.http.patch<EditedApplicationResponse>(`${this.baseUrl}/jobs`, properties))
+      console.log(res)
+      const old = this.jobsSubject.getValue().find((job: JobApplication) => job._id === properties.id)
+      const updated = this.jobsSubject.getValue().map((job: JobApplication) => job._id === res.jobApp._id ? res.jobApp : job)
+      this.jobsSubject.next(updated)
+      console.log('The job application that was edited was: ', old)
+      return res.jobApp
+    } catch (error) {
+      console.log("Couldn't update job application: ", error)
       throw error
     }
   }

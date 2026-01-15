@@ -3,8 +3,9 @@ import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { jwtDecode } from 'jwt-decode';
 import { JobApplicationAddModal } from '../../components/job-application-add-modal/job-application-add-modal';
-import { JobApplication, JobService } from '../../services/job-service';
+import { ApplicationUpdateProperties, JobApplication, JobService } from '../../services/job-service';
 import { map, Observable, tap } from 'rxjs';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,6 +24,9 @@ export class Dashboard {
   showStatusInputs: boolean[] = []
   /* ------------------------------- */
   jobsArr: JobApplication[] = []
+  companyNameControl = new FormControl('')
+  dateControl = new FormControl('')
+  statusControl = new FormControl('Pending')
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object, private modalService: NgbModal, 
   public jobsService: JobService) {}
@@ -64,6 +68,12 @@ export class Dashboard {
       console.log("showEditInputs length is: ", this.showNameInputs.length)
       console.log("showEditInputs values are: ", this.showNameInputs)
     })
+
+    // this.dateControl.valueChanges.subscribe(val => {
+    //   if (val) {
+    //     // this.editJobApp()
+    //   }
+    // })
     // if (jobsSubj && jobsSubj.length > 0) {
     //   console.log("jobsSubject inside dashboard component is: ", jobsSubj)
     
@@ -86,6 +96,36 @@ export class Dashboard {
   deleteJobApp(id: string | undefined) {
     console.log("I run")
     this.jobsService.deleteJobApplication(id)
+  }
+
+  async editJobApp(id: string | undefined, propertyName: string, val: string | null) {
+    console.log("I am editJobApp and I run.")
+    console.log('The edit input field value is: ', val)
+    console.log('The dateControl value is: ', this.dateControl.value)
+
+    if (val?.trim() === '') {
+      console.log('Edit input value can not be empty.')
+      return
+    }
+
+    if (!id) {
+      console.log('The id of the job application must be valid')
+      return
+    }
+
+    const body: ApplicationUpdateProperties = {
+      id: id,
+      field: propertyName,
+      newValue: val
+    }
+
+    console.log("The final body before sending the request is: ", body)
+
+    const res = await this.jobsService.updateJobApplication(body)
+
+    this.companyNameControl.setValue('')
+    // this.dateControl.setValue('')
+    this.statusControl.setValue('Pending')
   }
 
   toggleNameEditInput(id: string | undefined) {

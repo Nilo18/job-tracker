@@ -7,12 +7,15 @@ export interface JobApplication {
   userId?: string,
   company_name: string,
   date_sent: Date | string,
-  status: 'pending' | 'rejected' | 'accepted'
+  status: 'Pending' | 'Rejected' | 'Accepted'
 }
 
 export interface JobApplicationResponse {
   status: number,
   jobs: JobApplication[]
+  accepted: number,
+  rejected: number,
+  pending: number
 }
 
 export interface EditedApplicationResponse {
@@ -55,7 +58,7 @@ export class JobService {
       console.log('The job applications are: ', res)
       console.log("The jobs inside the GET response are: ", res.jobs)
       this.jobsSubject.next(res.jobs)
-      return res.jobs
+      return res
     } catch (error) {
       console.log("Couldn't get job applications: ", error)
       throw error
@@ -97,7 +100,7 @@ export class JobService {
       const newTasks = current.filter((job: any) => job._id !== id)
       this.jobsSubject.next(newTasks)
       console.log(res)
-      return res
+      return res.jobApp
     } catch (error) {
       console.log("Couldn't delete job application: ", error)
       throw error

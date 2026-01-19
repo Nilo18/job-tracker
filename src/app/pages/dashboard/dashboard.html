@@ -8,25 +8,25 @@
             <div class="dashboard-stats-card card d-flex justify-content-center align-items-center">
                 <div class="card-body d-flex flex-column justify-content-center align-items-start gap-4">
                     <h5 class="card-title">Total Applications</h5>
-                    <h1 class="card-subtitle mb-2 text-body-secondary">25</h1>
+                    <h1 class="card-subtitle mb-2 text-body-secondary">{{ jobsArr.length }}</h1>
                 </div>
             </div>
             <div class="dashboard-stats-card card d-flex justify-content-center align-items-center">
                 <div class="card-body d-flex flex-column justify-content-center align-items-start gap-4">
                     <h5 class="card-title">Accepted Applications</h5>
-                    <h1 class="card-subtitle mb-2 text-body-secondary">18</h1>
+                    <h1 class="card-subtitle mb-2 text-body-secondary">{{ acceptedApps$ | async }}</h1>
                 </div>
             </div>
             <div class="dashboard-stats-card card d-flex justify-content-center align-items-center">
                 <div class="card-body d-flex flex-column justify-content-center align-items-start gap-4">
                     <h5 class="card-title">Rejected Applications</h5>
-                    <h1 class="card-subtitle mb-2 text-body-secondary">5</h1>
+                    <h1 class="card-subtitle mb-2 text-body-secondary">{{ rejectedApps$ | async }}</h1>
                 </div>
             </div>
             <div class="dashboard-stats-card card d-flex justify-content-center align-items-center">
                 <div class="card-body d-flex flex-column justify-content-center align-items-start gap-4">
                     <h5 class="card-title">Pending Applications</h5>
-                    <h1 class="card-subtitle mb-2 text-body-secondary">2</h1>
+                    <h1 class="card-subtitle mb-2 text-body-secondary">{{ pendingApps$ | async }}</h1>
                 </div>
             </div>
          </section>

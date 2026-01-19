@@ -4,8 +4,14 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { jwtDecode } from 'jwt-decode';
 import { JobApplicationAddModal } from '../../components/job-application-add-modal/job-application-add-modal';
 import { ApplicationUpdateProperties, JobApplication, JobService } from '../../services/job-service';
-import { map, Observable, tap } from 'rxjs';
+import { map, Observable, of, tap } from 'rxjs';
 import { FormControl } from '@angular/forms';
+
+interface JobApplicationStats {
+  accepted: number, 
+  rejected: number,
+  pending: number
+}
 
 @Component({
   selector: 'app-dashboard',
@@ -27,6 +33,9 @@ export class Dashboard {
   companyNameControl = new FormControl('')
   dateControl = new FormControl('')
   statusControl = new FormControl('Pending')
+  acceptedApps$!: Observable<number> 
+  rejectedApps$!: Observable<number> 
+  pendingApps$!: Observable<number> 
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object, private modalService: NgbModal, 
   public jobsService: JobService) {}
@@ -48,12 +57,16 @@ export class Dashboard {
     }
     
     this.jobsService.getJobApplications()
+    // console.log("Response inside the component: ", res)
+    // this.acceptedApps = res.accepted
+    // this.rejectedApps = res.rejected
+    // this.pendingApps = res.pending
     this.jobs$ = this.jobsService.jobsObs$.pipe(
       tap(jobs => console.log(`The jobs are: `, jobs)),
       map(jobs =>
         jobs.map((job: JobApplication) => ({
           ...job,
-          date_sent: new Date(job.date_sent).toLocaleDateString()
+          date_sent: new Date(job.date_sent).toLocaleDateString('en-GB')
         }))
       )
     );
@@ -61,6 +74,18 @@ export class Dashboard {
     this.jobs$.subscribe(jobs => {
       // this.showEditInputs.length = jobs.length  
       this.jobsArr = jobs
+      
+      // this.jobsArr.forEach(job => {
+      //   if (job.status === 'Accepted') {
+      //     this.acceptedApps++
+      //   } else if (job.status === 'Pending') {  
+      //     this.pendingApps++
+      //   } else {
+      //     this.rejectedApps++
+      //   }
+      // });
+      // console.log("The pending number: ", this.pendingApps, "The accepted number: ", this.acceptedApps,
+      //    "Rejected number: ", this.rejectedApps)
       console.log("The jobsArr is: ", this.jobsArr)
       this.showNameInputs = new Array(jobs.length).fill(false)
       this.showDateInputs = new Array(jobs.length).fill(false)
@@ -68,6 +93,24 @@ export class Dashboard {
       console.log("showEditInputs length is: ", this.showNameInputs.length)
       console.log("showEditInputs values are: ", this.showNameInputs)
     })
+
+    this.acceptedApps$ = this.jobs$.pipe(
+      map(jobs => jobs.filter(job => job.status === 'Accepted').length)
+    )
+
+    this.rejectedApps$ = this.jobs$.pipe(
+      map(jobs => jobs.filter(job => job.status ==='Rejected').length)
+    )
+
+    this.pendingApps$ = this.jobs$.pipe(
+      map(jobs => jobs.filter(job => job.status === 'Pending').length)
+    )
+
+    // console.log("Accepted: ", this.acceptedApps$, "Rejected: ", this.rejectedApps$, "Pending: ", this.pendingApps$)
+    this.acceptedApps$.subscribe(val => console.log("Accepted: ", val))
+    this.rejectedApps$.subscribe(val => console.log("Rejected: ", val))
+    this.pendingApps$.subscribe(val => console.log("Pending: ", val))
+
 
     // this.dateControl.valueChanges.subscribe(val => {
     //   if (val) {
@@ -93,9 +136,17 @@ export class Dashboard {
     })
   }
 
-  deleteJobApp(id: string | undefined) {
+  async deleteJobApp(id: string | undefined) {
     console.log("I run")
-    this.jobsService.deleteJobApplication(id)
+    const res = await this.jobsService.deleteJobApplication(id)
+
+    // if (res.status === 'Accepted') {
+    //   this.acceptedApps--
+    // } else if (res.status === 'Pending') {
+    //   this.pendingApps--
+    // } else {
+    //   this.rejectedApps--
+    // }
   }
 
   async editJobApp(id: string | undefined, propertyName: string, val: string | null) {
@@ -122,6 +173,14 @@ export class Dashboard {
     console.log("The final body before sending the request is: ", body)
 
     const res = await this.jobsService.updateJobApplication(body)
+
+    // if (res.status === 'Accepted') {
+    //   this.acceptedApps++
+    // } else if (res.status === 'Pending') {
+    //   this.pendingApps++
+    // } else {
+    //   this.rejectedApps++
+    // }
 
     this.companyNameControl.setValue('')
     // this.dateControl.setValue('')

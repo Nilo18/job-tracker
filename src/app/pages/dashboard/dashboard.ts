@@ -4,7 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { jwtDecode } from 'jwt-decode';
 import { JobApplicationAddModal } from '../../components/job-application-add-modal/job-application-add-modal';
 import { ApplicationUpdateProperties, JobApplication, JobService } from '../../services/job-service';
-import { map, Observable, of, tap } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { FormControl } from '@angular/forms';
 
 interface JobApplicationStats {
@@ -33,6 +33,11 @@ export class Dashboard {
   companyNameControl = new FormControl('')
   dateControl = new FormControl('')
   statusControl = new FormControl('Pending')
+  editing: Record<string, {
+    name: boolean
+    date: boolean
+    status: boolean
+  }> = {}
   acceptedApps$!: Observable<number> 
   rejectedApps$!: Observable<number> 
   pendingApps$!: Observable<number> 
@@ -57,10 +62,6 @@ export class Dashboard {
     }
     
     this.jobsService.getJobApplications()
-    // console.log("Response inside the component: ", res)
-    // this.acceptedApps = res.accepted
-    // this.rejectedApps = res.rejected
-    // this.pendingApps = res.pending
     this.jobs$ = this.jobsService.jobsObs$.pipe(
       tap(jobs => console.log(`The jobs are: `, jobs)),
       map(jobs =>
@@ -72,20 +73,7 @@ export class Dashboard {
     );
     // const jobsSubj = this.jobsService.jobsSubject.getValue()
     this.jobs$.subscribe(jobs => {
-      // this.showEditInputs.length = jobs.length  
       this.jobsArr = jobs
-      
-      // this.jobsArr.forEach(job => {
-      //   if (job.status === 'Accepted') {
-      //     this.acceptedApps++
-      //   } else if (job.status === 'Pending') {  
-      //     this.pendingApps++
-      //   } else {
-      //     this.rejectedApps++
-      //   }
-      // });
-      // console.log("The pending number: ", this.pendingApps, "The accepted number: ", this.acceptedApps,
-      //    "Rejected number: ", this.rejectedApps)
       console.log("The jobsArr is: ", this.jobsArr)
       this.showNameInputs = new Array(jobs.length).fill(false)
       this.showDateInputs = new Array(jobs.length).fill(false)
@@ -110,23 +98,11 @@ export class Dashboard {
     this.acceptedApps$.subscribe(val => console.log("Accepted: ", val))
     this.rejectedApps$.subscribe(val => console.log("Rejected: ", val))
     this.pendingApps$.subscribe(val => console.log("Pending: ", val))
-
-
-    // this.dateControl.valueChanges.subscribe(val => {
-    //   if (val) {
-    //     // this.editJobApp()
-    //   }
-    // })
-    // if (jobsSubj && jobsSubj.length > 0) {
-    //   console.log("jobsSubject inside dashboard component is: ", jobsSubj)
-    
-    //   console.log("showEditInputs length is: ", this.showEditInputs.length)
-    // }
   }
 
+  
+
   showAddModal(event: MouseEvent) {
-    // console.log(event);
-    // return
     (event.target as HTMLElement).blur()
 
     this.modalService.open(JobApplicationAddModal, {
@@ -139,14 +115,6 @@ export class Dashboard {
   async deleteJobApp(id: string | undefined) {
     console.log("I run")
     const res = await this.jobsService.deleteJobApplication(id)
-
-    // if (res.status === 'Accepted') {
-    //   this.acceptedApps--
-    // } else if (res.status === 'Pending') {
-    //   this.pendingApps--
-    // } else {
-    //   this.rejectedApps--
-    // }
   }
 
   async editJobApp(id: string | undefined, propertyName: string, val: string | null) {
@@ -174,67 +142,81 @@ export class Dashboard {
 
     const res = await this.jobsService.updateJobApplication(body)
 
-    // if (res.status === 'Accepted') {
-    //   this.acceptedApps++
-    // } else if (res.status === 'Pending') {
-    //   this.pendingApps++
-    // } else {
-    //   this.rejectedApps++
-    // }
-
     this.companyNameControl.setValue('')
     // this.dateControl.setValue('')
     this.statusControl.setValue('Pending')
+
+    for (const key of Object.keys(this.editing[id]) as Array<'name' | 'date' | 'status'>) {
+      this.editing[id][key] = false
+    }
   }
 
-  toggleNameEditInput(id: string | undefined) {
+  toggleEdit(id: string | undefined, field: 'name' | 'date' | 'status') {
     if (!id) {
-      console.log("Invalid id: ", id)
+      console.log('id is undefined')
       return
     }
 
-    const index = this.jobsArr.findIndex(job => job._id === id)
+    // lazy initialization
+    this.editing[id] ??= { name: false, date: false, status: false }
 
-    if (index === -1) {
-      console.log("Job not found (findIndex returned -1).")
-      return
-    }
+    // close other fields
+    // for (const key of Object.keys(this.editing[id]) as Array<'name' | 'date' | 'status'>) {
+    //   this.editing[id][key] = false
+    // }
 
-    console.log(`Showing input for showEditInput[${index}]`)
-    this.showNameInputs[index] = !this.showNameInputs[index]
+    // toggle requested field
+    this.editing[id][field] = true
   }
 
-  toggleDateEditInput(id: string | undefined) {
-    if (!id) {
-      console.log("Invalid id: ", id)
-      return
-    }
+  // toggleNameEditInput(id: string | undefined) {
+  //   if (!id) {
+  //     console.log("Invalid id: ", id)
+  //     return
+  //   }
 
-    const index = this.jobsArr.findIndex(job => job._id === id)
+  //   const index = this.jobsArr.findIndex(job => job._id === id)
 
-    if (index === -1) {
-      console.log("Job not found (findIndex returned -1).")
-      return
-    }
+  //   if (index === -1) {
+  //     console.log("Job not found (findIndex returned -1).")
+  //     return
+  //   }
 
-    console.log(`Showing input for showEditInput[${index}]`)
-    this.showDateInputs[index] = !this.showDateInputs[index]
-  }
+  //   console.log(`Showing input for showEditInput[${index}]`)
+  //   this.showNameInputs[index] = !this.showNameInputs[index]
+  // }
 
-  toggleStatusEditInput(id: string | undefined) {
-    if (!id) {
-      console.log("Invalid id: ", id)
-      return
-    }
+  // toggleDateEditInput(id: string | undefined) {
+  //   if (!id) {
+  //     console.log("Invalid id: ", id)
+  //     return
+  //   }
 
-    const index = this.jobsArr.findIndex(job => job._id === id)
+  //   const index = this.jobsArr.findIndex(job => job._id === id)
 
-    if (index === -1) {
-      console.log("Job not found (findIndex returned -1).")
-      return
-    }
+  //   if (index === -1) {
+  //     console.log("Job not found (findIndex returned -1).")
+  //     return
+  //   }
 
-    console.log(`Showing input for showEditInput[${index}]`)
-    this.showStatusInputs[index] = !this.showStatusInputs[index]
-  }
+  //   console.log(`Showing input for showEditInput[${index}]`)
+  //   this.showDateInputs[index] = !this.showDateInputs[index]
+  // }
+
+  // toggleStatusEditInput(id: string | undefined) {
+  //   if (!id) {
+  //     console.log("Invalid id: ", id)
+  //     return
+  //   }
+
+  //   const index = this.jobsArr.findIndex(job => job._id === id)
+
+  //   if (index === -1) {
+  //     console.log("Job not found (findIndex returned -1).")
+  //     return
+  //   }
+
+  //   console.log(`Showing input for showEditInput[${index}]`)
+  //   this.showStatusInputs[index] = !this.showStatusInputs[index]
+  // }
 }

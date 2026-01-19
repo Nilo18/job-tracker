@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, EMPTY, firstValueFrom, map, Observable } from 'rxjs';
 
 export interface JobApplication {
-  _id?: string,
+  _id: string,
   userId?: string,
   company_name: string,
   date_sent: Date | string,

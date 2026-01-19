@@ -47,31 +47,31 @@
                             <th scope="row">{{i + 1}}</th>
                             <td>
                                 <div class="dashboard-apptable-td">
-                                    @if (!showNameInputs[i]) {
+                                    @if (!editing[job._id]?.name) {
                                         {{ job.company_name }}
                                     }  @else {
                                         <input type="text" class="form-control" [formControl]="companyNameControl" 
                                         (keydown.enter)="editJobApp(job._id, 'company_name', companyNameControl.value)">
                                     }  
                                         
-                                    <mat-icon (click)="toggleNameEditInput(job?._id)">edit</mat-icon>
+                                    <mat-icon (click)="toggleEdit(job?._id, 'name')">edit</mat-icon>
                                 </div>
                             </td>
                             <td>
                                 <div class="dashboard-apptable-td">
-                                    @if (!showDateInputs[i]) {
+                                    @if (!editing[job._id]?.date) {
                                         {{job.date_sent}}
                                     }  @else {
                                         <input type="date" class="form-control" [formControl]="dateControl"
                                         (change)="editJobApp(job._id, 'date_sent', dateControl.value)">
                                     }  
 
-                                    <mat-icon (click)="toggleDateEditInput(job?._id)">edit</mat-icon>       
+                                    <mat-icon (click)="toggleEdit(job?._id, 'date')">edit</mat-icon>       
                                 </div>
                             </td>
                             <td>
                                 <div class="dashboard-apptable-td">
-                                    @if (!showStatusInputs[i]) {
+                                    @if (!editing[job._id]?.status) {
                                         {{job.status}}
                                     }  @else {
                                         <select class="form-select" [formControl]="statusControl"
@@ -82,7 +82,7 @@
                                         </select>
                                     }  
 
-                                    <mat-icon (click)="toggleStatusEditInput(job?._id)">edit</mat-icon>       
+                                    <mat-icon (click)="toggleEdit(job?._id, 'status')">edit</mat-icon>       
                                 </div>  
                             </td>
                             <td (click)="deleteJobApp(job._id)">

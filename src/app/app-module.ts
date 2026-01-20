@@ -18,6 +18,7 @@ import { OAuthModule } from 'angular-oauth2-oidc';
 import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { JobApplicationAddModal } from './components/job-application-add-modal/job-application-add-modal';
+import { DashboardStats } from './components/dashboard-stats/dashboard-stats';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { JobApplicationAddModal } from './components/job-application-add-modal/j
     Settings,
     SearchPage,
     Header,
-    JobApplicationAddModal
+    JobApplicationAddModal,
+    DashboardStats
   ],
   imports: [
     BrowserModule,

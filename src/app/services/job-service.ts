@@ -2,12 +2,18 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, EMPTY, firstValueFrom, map, Observable } from 'rxjs';
 
+export enum JobApplicationStatus {
+  Pending = 'Pending',
+  Rejected = 'Rejected',
+  Accepted = 'Accepted'
+}
+
 export interface JobApplication {
   _id: string,
   userId?: string,
   company_name: string,
   date_sent: Date | string,
-  status: 'Pending' | 'Rejected' | 'Accepted'
+  status: JobApplicationStatus
 }
 
 export interface JobApplicationResponse {
@@ -36,7 +42,7 @@ export class JobService {
   // query=Frontend Developer&page=1&num_pages=1&country=georgia
   private baseUrl = 'http://localhost:3000/api'
   private http = inject(HttpClient)
-  public jobsSubject: BehaviorSubject<any> = new BehaviorSubject<any[]>([])
+  public jobsSubject: BehaviorSubject<any> = new BehaviorSubject<JobApplication[]>([])
   public jobsObs$ = this.jobsSubject.asObservable()
 
   search(query: string): Observable<any> {

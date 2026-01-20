@@ -7,12 +7,6 @@ import { ApplicationUpdateProperties, JobApplication, JobService } from '../../s
 import { map, Observable, tap } from 'rxjs';
 import { FormControl } from '@angular/forms';
 
-interface JobApplicationStats {
-  accepted: number, 
-  rejected: number,
-  pending: number
-}
-
 @Component({
   selector: 'app-dashboard',
   standalone: false,
@@ -24,28 +18,16 @@ export class Dashboard {
   showLoggedInHeader: boolean = false
   showModal: boolean = false
   jobs$!: Observable<JobApplication[]>;
-  /* These three are an array of flags for controlling their respective property editing in the table */
-  showNameInputs: boolean[] = []
-  showDateInputs: boolean[] = []
-  showStatusInputs: boolean[] = []
-  /* ------------------------------- */
-  jobsArr: JobApplication[] = []
-  companyNameControl = new FormControl('')
-  dateControl = new FormControl('')
-  statusControl = new FormControl('Pending')
   editing: Record<string, {
     name: boolean
     date: boolean
     status: boolean
   }> = {}
-  acceptedApps$!: Observable<number> 
-  rejectedApps$!: Observable<number> 
-  pendingApps$!: Observable<number> 
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object, private modalService: NgbModal, 
   public jobsService: JobService) {}
 
-  async ngOnInit() {
+  ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
       // console.log(window.location.hash)
       const hash = window.location.hash.substring(1) // Remove #
@@ -71,36 +53,7 @@ export class Dashboard {
         }))
       )
     );
-    // const jobsSubj = this.jobsService.jobsSubject.getValue()
-    this.jobs$.subscribe(jobs => {
-      this.jobsArr = jobs
-      console.log("The jobsArr is: ", this.jobsArr)
-      this.showNameInputs = new Array(jobs.length).fill(false)
-      this.showDateInputs = new Array(jobs.length).fill(false)
-      this.showStatusInputs = new Array(jobs.length).fill(false)
-      console.log("showEditInputs length is: ", this.showNameInputs.length)
-      console.log("showEditInputs values are: ", this.showNameInputs)
-    })
-
-    this.acceptedApps$ = this.jobs$.pipe(
-      map(jobs => jobs.filter(job => job.status === 'Accepted').length)
-    )
-
-    this.rejectedApps$ = this.jobs$.pipe(
-      map(jobs => jobs.filter(job => job.status ==='Rejected').length)
-    )
-
-    this.pendingApps$ = this.jobs$.pipe(
-      map(jobs => jobs.filter(job => job.status === 'Pending').length)
-    )
-
-    // console.log("Accepted: ", this.acceptedApps$, "Rejected: ", this.rejectedApps$, "Pending: ", this.pendingApps$)
-    this.acceptedApps$.subscribe(val => console.log("Accepted: ", val))
-    this.rejectedApps$.subscribe(val => console.log("Rejected: ", val))
-    this.pendingApps$.subscribe(val => console.log("Pending: ", val))
   }
-
-  
 
   showAddModal(event: MouseEvent) {
     (event.target as HTMLElement).blur()
@@ -120,7 +73,6 @@ export class Dashboard {
   async editJobApp(id: string | undefined, propertyName: string, val: string | null) {
     console.log("I am editJobApp and I run.")
     console.log('The edit input field value is: ', val)
-    console.log('The dateControl value is: ', this.dateControl.value)
 
     if (val?.trim() === '') {
       console.log('Edit input value can not be empty.')
@@ -142,10 +94,6 @@ export class Dashboard {
 
     const res = await this.jobsService.updateJobApplication(body)
 
-    this.companyNameControl.setValue('')
-    // this.dateControl.setValue('')
-    this.statusControl.setValue('Pending')
-
     for (const key of Object.keys(this.editing[id]) as Array<'name' | 'date' | 'status'>) {
       this.editing[id][key] = false
     }
@@ -166,57 +114,6 @@ export class Dashboard {
     // }
 
     // toggle requested field
-    this.editing[id][field] = true
+    this.editing[id][field] = !this.editing[id][field]
   }
-
-  // toggleNameEditInput(id: string | undefined) {
-  //   if (!id) {
-  //     console.log("Invalid id: ", id)
-  //     return
-  //   }
-
-  //   const index = this.jobsArr.findIndex(job => job._id === id)
-
-  //   if (index === -1) {
-  //     console.log("Job not found (findIndex returned -1).")
-  //     return
-  //   }
-
-  //   console.log(`Showing input for showEditInput[${index}]`)
-  //   this.showNameInputs[index] = !this.showNameInputs[index]
-  // }
-
-  // toggleDateEditInput(id: string | undefined) {
-  //   if (!id) {
-  //     console.log("Invalid id: ", id)
-  //     return
-  //   }
-
-  //   const index = this.jobsArr.findIndex(job => job._id === id)
-
-  //   if (index === -1) {
-  //     console.log("Job not found (findIndex returned -1).")
-  //     return
-  //   }
-
-  //   console.log(`Showing input for showEditInput[${index}]`)
-  //   this.showDateInputs[index] = !this.showDateInputs[index]
-  // }
-
-  // toggleStatusEditInput(id: string | undefined) {
-  //   if (!id) {
-  //     console.log("Invalid id: ", id)
-  //     return
-  //   }
-
-  //   const index = this.jobsArr.findIndex(job => job._id === id)
-
-  //   if (index === -1) {
-  //     console.log("Job not found (findIndex returned -1).")
-  //     return
-  //   }
-
-  //   console.log(`Showing input for showEditInput[${index}]`)
-  //   this.showStatusInputs[index] = !this.showStatusInputs[index]
-  // }
 }

@@ -12,7 +12,8 @@ This project allows users to monitor job postings from jobs.ge, receive real-tim
 # Demo
 
 
-<img width="1899" height="917" alt="landing_page" src="https://github.com/user-attachments/assets/1d61bbeb-8435-49b6-9549-101020c21988" />
+![landing_page](https://github.com/user-attachments/assets/f4104c36-0b58-4f72-95d5-bb6d43686bf6)
+
 
 
 https://github.com/user-attachments/assets/9d3cf701-527c-4e83-8984-d80e9dbd920b

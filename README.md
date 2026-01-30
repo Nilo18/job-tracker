@@ -10,5 +10,11 @@ This project allows users to monitor job postings from jobs.ge, receive real-tim
 🔗 Backend repository: https://github.com/Nilo18/job-tracker-back
 
 # Demo
-https://github.com/user-attachments/assets/2e8ad397-5a4b-4e3e-a413-63ba8d3f48e5
+
+
+<img width="1899" height="917" alt="landing_page" src="https://github.com/user-attachments/assets/1d61bbeb-8435-49b6-9549-101020c21988" />
+
+
+https://github.com/user-attachments/assets/9d3cf701-527c-4e83-8984-d80e9dbd920b
+
 

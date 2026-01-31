@@ -12,7 +12,7 @@
                         <th scope="col">Company name</th>
                         <th scope="col">Date sent</th>
                         <th scope="col">Response</th>
-                        <th scope="col">Operations</th>
+                        <th scope="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,7 +48,7 @@
                                     @if (!editing[job._id]?.status) {
                                         {{ job.status }}
                                     }  @else {
-                                        <select class="form-select" [value]="job.status"
+                                        <select class="form-select" [value]="job.status" style="width: 120px; font-size: 14px;"
                                             (change)="editJobApp(job._id, 'status', $any($event.target).value)">
                                             <option value="Pending">Pending</option>
                                             <option value="Rejected">Rejected</option>

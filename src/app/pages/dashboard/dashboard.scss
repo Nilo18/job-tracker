@@ -9,9 +9,14 @@
         table {
             tr {
                 text-align: center;
+                vertical-align: middle;
                 // display: flex;
                 // justify-content: center;
                 // align-items: center;
+
+                td {
+                    height: 50px;
+                }
 
                 .dashboard-apptable-td {
                     display: flex;

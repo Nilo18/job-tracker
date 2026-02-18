@@ -1,11 +1,14 @@
 import { isPlatformBrowser } from '@angular/common';
-import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, PLATFORM_ID, ChangeDetectorRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { jwtDecode } from 'jwt-decode';
 import { JobApplicationAddModal } from '../../components/job-application-add-modal/job-application-add-modal';
 import { ApplicationUpdateProperties, JobApplication, JobService } from '../../services/job-service';
-import { map, Observable, tap } from 'rxjs';
+import { GoogleAuthServerResponse } from '../../services/google-api-service';
+import { firstValueFrom, map, Observable, tap } from 'rxjs';
 import { FormControl } from '@angular/forms';
+import { OAuthService } from 'angular-oauth2-oidc';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,27 +26,67 @@ export class Dashboard {
     date: boolean
     status: boolean
   }> = {}
+  baseURL: string = "http://localhost:3000"
+  // pageLoading: boolean = true
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object, private modalService: NgbModal, 
-  public jobsService: JobService) {}
+  public jobsService: JobService, public oAuthService: OAuthService, private http: HttpClient, 
+  private cd: ChangeDetectorRef) {}
 
-  ngOnInit() {
+ async ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
       // console.log(window.location.hash)
-      const hash = window.location.hash.substring(1) // Remove #
-      const url = new URLSearchParams(hash)
-      // console.log("access_token: ", url.get("access_token"))
-      // console.log("ID token: ", url.get("id_token"))
-      const idToken = url.get("id_token") || ''
-      const data = jwtDecode(idToken)
-      this.data = data
-      this.showLoggedInHeader = true
-      console.log("showLoggedInHeader is: ", this.showLoggedInHeader)
-      // console.log(data)
-      // console.log(this.data)
+      const hash = window.location.search.substring(1) // Remove #
+      const urlG = new URLSearchParams(hash)
+      console.log(hash)
+      console.log("access_token: ", urlG.get("access_token"))
+      console.log("code: ", urlG.get("code"))
+      // try {
+        console.log("Running outside the if check in dashboard ngOnInit")
+        let token = localStorage.getItem('jobF_token') 
+        if (!token) {
+          // this.pageLoading = true
+          // console.log("Loading screen should be displayed: ", this.pageLoading)
+          console.log("Running....")
+          // const idToken = this.oAuthService.getIdToken();
+          const code = urlG.get('code')
+          const codeVerifier = sessionStorage.getItem('PKCE_verifier')
+          console.log("Code verifier is: ", codeVerifier)
+
+          const res = await firstValueFrom(this.http.post<GoogleAuthServerResponse>(`${this.baseURL}/api/auth/login`, {
+            provider: 'google',
+            code: code,
+            code_verifier: codeVerifier
+          }))
+
+          console.log("Received response from the backend: ", res)
+          localStorage.setItem('jobF_token', res.token)
+          token = res.token
+          console.log("Saved token to localStorage")
+        }
+
+        window.history.replaceState({}, document.title, window.location.pathname);
+        console.log("Cleared URL input")
+        const data = jwtDecode(token)
+        this.data = data
+        this.showLoggedInHeader = true
+        // console.log("Loading screen should be displayed: ", this.pageLoading)
+        // this.cd.detectChanges()
+        console.log("Decoded token is: ", this.data)
+        // this.pageLoading = false
+        // this.cd.detectChanges()
+        // console.log("Loading screen should be displayed: ", this.pageLoading)
+      // } catch (error) {
+      //   console.log("Auth check failed: ", error)
+      // } 
+      // finally {
+      //   this.pageLoading = false
+      //   console.log("Loading screen should be displayed: ", this.pageLoading)
+      // }
     }
     
     this.jobsService.getJobApplications()
+    console.log("jobs observable in the service: ", this.jobsService.jobsObs$)
     this.jobs$ = this.jobsService.jobsObs$.pipe(
       tap(jobs => console.log(`The jobs are: `, jobs)),
       map(jobs =>
@@ -51,8 +94,14 @@ export class Dashboard {
           ...job,
           date_sent: new Date(job.date_sent).toLocaleDateString('en-GB')
         }))
-      )
+      ),
+      // tap(() => {
+        // this.pageLoading = false;
+      // })
     );
+    
+    this.cd.detectChanges()
+    console.log("jobs observable in dashboard: ", this.jobs$)
   }
 
   showAddModal(event: MouseEvent) {

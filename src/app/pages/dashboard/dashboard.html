@@ -1,76 +1,80 @@
-<app-header [loggedIn]="showLoggedInHeader" [userData]="data"></app-header>
-<div class="cont">
-    <div class="dashboard d-flex flex-column gap-4 mt-5">
-        <!-- <img [src]="data.picture" alt="Profile image"> -->
-        <h1>Hello {{data.name}}!</h1>
-        <app-dashboard-stats [jobs$]="jobs$"></app-dashboard-stats>
-        <section class="dashboard-applications">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Company name</th>
-                        <th scope="col">Date sent</th>
-                        <th scope="col">Response</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (job of jobs$ | async; track job._id; let i = $index) {
-                        <tr class="dashboard-apptable-tr">
-                            <th scope="row">{{i + 1}}</th>
-                            <td>
-                                <div class="dashboard-apptable-td">
-                                    @if (!editing[job._id]?.name) {
-                                        {{ job.company_name }}
-                                    }  @else {
-                                        <input type="text" class="form-control" [value]="job.company_name" 
-                                        (keydown.enter)="editJobApp(job._id, 'company_name', $event.target.value)">
-                                    }  
-                                        
-                                    <mat-icon (click)="toggleEdit(job?._id, 'name')">edit</mat-icon>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="dashboard-apptable-td">
-                                    @if (!editing[job._id]?.date) {
-                                        {{ job.date_sent }}
-                                    }  @else {
-                                        <input type="date" class="form-control" [value]="job.date_sent"
-                                        (change)="editJobApp(job._id, 'date_sent', $event.target.value)">
-                                    }  
-
-                                    <mat-icon (click)="toggleEdit(job?._id, 'date')">edit</mat-icon>       
-                                </div>
-                            </td>
-                            <td>
-                                <div class="dashboard-apptable-td">
-                                    @if (!editing[job._id]?.status) {
-                                        {{ job.status }}
-                                    }  @else {
-                                        <select class="form-select" [value]="job.status" style="width: 120px; font-size: 14px;"
-                                            (change)="editJobApp(job._id, 'status', $any($event.target).value)">
-                                            <option value="Pending">Pending</option>
-                                            <option value="Rejected">Rejected</option>
-                                            <option value="Accepted">Accepted</option>
-                                        </select>
-                                    }  
-
-                                    <mat-icon (click)="toggleEdit(job?._id, 'status')">edit</mat-icon>       
-                                </div>  
-                            </td>
-                            <td (click)="deleteJobApp(job._id)">
-                                <button class="custom-table-btn">
-                                    Remove
-                                </button>
-                            </td>
+<!-- @if (jobs$ | async) { -->
+    <app-header [loggedIn]="showLoggedInHeader" [userData]="data"></app-header>
+    <div class="cont">
+        <div class="dashboard d-flex flex-column gap-4 mt-5">
+            <!-- <img [src]="data.picture" alt="Profile image"> -->
+            <h1>Hello {{data.name}}!</h1>
+            <app-dashboard-stats [jobs$]="jobs$"></app-dashboard-stats>
+            <section class="dashboard-applications">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Company name</th>
+                            <th scope="col">Date sent</th>
+                            <th scope="col">Response</th>
+                            <th scope="col">Actions</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
-            <div class="dashboard-addapplication-btn-container">
-                <button type="button" (click)="showAddModal($event)">+</button>
-            </div>
-        </section>
+                    </thead>
+                    <tbody>
+                        @for (job of jobs$ | async; track job._id; let i = $index) {
+                            <tr class="dashboard-apptable-tr">
+                                <th scope="row">{{i + 1}}</th>
+                                <td>
+                                    <div class="dashboard-apptable-td">
+                                        @if (!editing[job._id]?.name) {
+                                            {{ job.company_name }}
+                                        }  @else {
+                                            <input type="text" class="form-control" [value]="job.company_name" 
+                                            (keydown.enter)="editJobApp(job._id, 'company_name', $event.target.value)">
+                                        }  
+                                            
+                                        <mat-icon (click)="toggleEdit(job?._id, 'name')">edit</mat-icon>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="dashboard-apptable-td">
+                                        @if (!editing[job._id]?.date) {
+                                            {{ job.date_sent }}
+                                        }  @else {
+                                            <input type="date" class="form-control" [value]="job.date_sent"
+                                            (change)="editJobApp(job._id, 'date_sent', $event.target.value)">
+                                        }  
+
+                                        <mat-icon (click)="toggleEdit(job?._id, 'date')">edit</mat-icon>       
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="dashboard-apptable-td">
+                                        @if (!editing[job._id]?.status) {
+                                            {{ job.status }}
+                                        }  @else {
+                                            <select class="form-select" [value]="job.status" style="width: 120px; font-size: 14px;"
+                                                (change)="editJobApp(job._id, 'status', $any($event.target).value)">
+                                                <option value="Pending">Pending</option>
+                                                <option value="Rejected">Rejected</option>
+                                                <option value="Accepted">Accepted</option>
+                                            </select>
+                                        }  
+
+                                        <mat-icon (click)="toggleEdit(job?._id, 'status')">edit</mat-icon>       
+                                    </div>  
+                                </td>
+                                <td (click)="deleteJobApp(job._id)">
+                                    <button class="custom-table-btn">
+                                        Remove
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div class="dashboard-addapplication-btn-container">
+                    <button type="button" (click)="showAddModal($event)">+</button>
+                </div>
+            </section>
+        </div>
     </div>
-</div>
+<!-- } @else {
+    <p>Loading...</p>
+} -->

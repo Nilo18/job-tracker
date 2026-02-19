@@ -16,7 +16,7 @@ export class Header {
   ngOnInit() {
     console.log("loggedIn value is: ", this.loggedIn)
     console.log("The userData is: ", this.userData)
-    console.log(this.userData.picture)
+    console.log(this.userData.profilePicture)
   }
 
   logout() {

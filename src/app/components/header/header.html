@@ -12,7 +12,7 @@
         </div>
         <div class="header-profile d-flex justify-content-center align-items-center gap-3">
             <mat-icon>notifications</mat-icon>
-            <img [src]="userData.picture ? userData.picture : '/assets/profIconGray.png'" alt="Profile image">
+            <img [src]="userData.profilePicture ? userData.profilePicture : '/assets/profIconGray.png'" alt="Profile image">
         </div>
         <button (click)="logout()">Log Out</button>
     }

@@ -10,7 +10,7 @@ export enum JobApplicationStatus {
 
 export interface JobApplication {
   _id: string,
-  userId?: string,
+  userId: string,
   company_name: string,
   date_sent: Date | string,
   status: JobApplicationStatus
@@ -30,6 +30,7 @@ export interface EditedApplicationResponse {
 }
 
 export interface ApplicationUpdateProperties {
+  userId: string,
   id: string,
   field: string,
   newValue: string | null
@@ -58,9 +59,10 @@ export class JobService {
     })
   }
 
-  async getJobApplications() {
+  async getJobApplications(userId: string) {
     try {
-      const res = await firstValueFrom(this.http.get<JobApplicationResponse>(`${this.baseUrl}/jobs`))
+      console.log('Sending to this url: ', `${this.baseUrl}/jobs/${userId}`)
+      const res = await firstValueFrom(this.http.get<JobApplicationResponse>(`${this.baseUrl}/jobs/${userId}`))
       console.log('The job applications are: ', res)
       console.log("The jobs inside the GET response are: ", res.jobs)
       this.jobsSubject.next(res.jobs)
@@ -99,9 +101,10 @@ export class JobService {
     }
   }
 
-  async deleteJobApplication(id: string | undefined) {
+  async deleteJobApplication(userId: string, id: string | undefined) {
     try {
-      const res = await firstValueFrom(this.http.delete<EditedApplicationResponse>(`${this.baseUrl}/jobs/${id}`))
+      const body = {userId: userId, id: id}
+      const res = await firstValueFrom(this.http.delete<EditedApplicationResponse>(`${this.baseUrl}/jobs`, {body}))
       const current = this.jobsSubject.getValue()
       const newTasks = current.filter((job: any) => job._id !== id)
       this.jobsSubject.next(newTasks)

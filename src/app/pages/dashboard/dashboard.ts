@@ -85,7 +85,8 @@ export class Dashboard {
       // }
     }
     
-    this.jobsService.getJobApplications()
+    console.log("_id is: ", this.data._id)
+    this.jobsService.getJobApplications(this.data._id)
     console.log("jobs observable in the service: ", this.jobsService.jobsObs$)
     this.jobs$ = this.jobsService.jobsObs$.pipe(
       tap(jobs => console.log(`The jobs are: `, jobs)),
@@ -114,9 +115,9 @@ export class Dashboard {
     })
   }
 
-  async deleteJobApp(id: string | undefined) {
+  async deleteJobApp(userId: string, id: string | undefined) {
     console.log("I run")
-    const res = await this.jobsService.deleteJobApplication(id)
+    const res = await this.jobsService.deleteJobApplication(userId, id)
   }
 
   async editJobApp(id: string | undefined, propertyName: string, val: string | null) {
@@ -134,6 +135,7 @@ export class Dashboard {
     }
 
     const body: ApplicationUpdateProperties = {
+      userId: this.data._id,
       id: id,
       field: propertyName,
       newValue: val

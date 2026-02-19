@@ -19,6 +19,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { JobApplicationAddModal } from './components/job-application-add-modal/job-application-add-modal';
 import { DashboardStats } from './components/dashboard-stats/dashboard-stats';
+import { Callback } from './pages/callback/callback';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { DashboardStats } from './components/dashboard-stats/dashboard-stats';
     SearchPage,
     Header,
     JobApplicationAddModal,
-    DashboardStats
+    DashboardStats,
+    Callback
   ],
   imports: [
     BrowserModule,

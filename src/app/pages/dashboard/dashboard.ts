@@ -35,44 +35,47 @@ export class Dashboard {
 
  async ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
-      // console.log(window.location.hash)
-      const hash = window.location.search.substring(1) // Remove #
-      const urlG = new URLSearchParams(hash)
-      console.log(hash)
-      console.log("access_token: ", urlG.get("access_token"))
-      console.log("code: ", urlG.get("code"))
-      // try {
-        console.log("Running outside the if check in dashboard ngOnInit")
-        let token = localStorage.getItem('jobF_token') 
-        if (!token) {
-          // this.pageLoading = true
-          // console.log("Loading screen should be displayed: ", this.pageLoading)
-          console.log("Running....")
-          // const idToken = this.oAuthService.getIdToken();
-          const code = urlG.get('code')
-          const codeVerifier = sessionStorage.getItem('PKCE_verifier')
-          console.log("Code verifier is: ", codeVerifier)
+      // // console.log(window.location.hash)
+      // const hash = window.location.search.substring(1) // Remove #
+      // const urlG = new URLSearchParams(hash)
+      // console.log(hash)
+      // console.log("access_token: ", urlG.get("access_token"))
+      // console.log("code: ", urlG.get("code"))
+      // // try {
+      //   console.log("Running outside the if check in dashboard ngOnInit")
+      //   let token = localStorage.getItem('jobF_token') 
+      //   if (!token) {
+      //     // this.pageLoading = true
+      //     // console.log("Loading screen should be displayed: ", this.pageLoading)
+      //     console.log("Running....")
+      //     // const idToken = this.oAuthService.getIdToken();
+      //     const code = urlG.get('code')
+      //     const codeVerifier = sessionStorage.getItem('PKCE_verifier')
+      //     console.log("Code verifier is: ", codeVerifier)
 
-          const res = await firstValueFrom(this.http.post<GoogleAuthServerResponse>(`${this.baseURL}/api/auth/login`, {
-            provider: 'google',
-            code: code,
-            code_verifier: codeVerifier
-          }))
+      //     const res = await firstValueFrom(this.http.post<GoogleAuthServerResponse>(`${this.baseURL}/api/auth/login`, {
+      //       provider: 'google',
+      //       code: code,
+      //       code_verifier: codeVerifier
+      //     }))
 
-          console.log("Received response from the backend: ", res)
-          localStorage.setItem('jobF_token', res.token)
-          token = res.token
-          console.log("Saved token to localStorage")
-        }
+      //     console.log("Received response from the backend: ", res)
+      //     localStorage.setItem('jobF_token', res.token)
+      //     token = res.token
+      //     console.log("Saved token to localStorage")
+      //   }
 
+        const token = localStorage.getItem('jobF_token')
         window.history.replaceState({}, document.title, window.location.pathname);
-        console.log("Cleared URL input")
-        const data = jwtDecode(token)
-        this.data = data
-        this.showLoggedInHeader = true
+        if (token) {
+          console.log("Cleared URL input")
+          const data = jwtDecode(token)
+          this.data = data
+          this.showLoggedInHeader = true
+          console.log("Decoded token is: ", this.data)
+        }
         // console.log("Loading screen should be displayed: ", this.pageLoading)
         // this.cd.detectChanges()
-        console.log("Decoded token is: ", this.data)
         // this.pageLoading = false
         // this.cd.detectChanges()
         // console.log("Loading screen should be displayed: ", this.pageLoading)

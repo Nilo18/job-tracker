@@ -1,0 +1,75 @@
+.atlas-container {
+  height: 100vh;
+  width: 100%;
+  background-color: #ffffff; /* Clean White Background */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.blob-wrapper {
+  position: relative;
+  width: 250px;
+  height: 250px;
+  /* The SVG filter ID from your HTML */
+  filter: url('#goo'); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.blob {
+  position: absolute;
+  /* Using 'Atlas Blue' for a professional tech feel */
+  background-color: #0060df; 
+  border-radius: 50%;
+  /* High-end soft glow */
+  box-shadow: 0 0 25px rgba(0, 96, 223, 0.15); 
+}
+
+/* Constants for constant shape-shifting */
+.blob:nth-child(1) {
+  width: 90px;
+  height: 90px;
+  animation: move-1 6s ease-in-out infinite;
+}
+
+.blob:nth-child(2) {
+  width: 75px;
+  height: 75px;
+  background-color: #00edff; /* Cyan accent */
+  animation: move-2 4.5s ease-in-out infinite;
+}
+
+.blob:nth-child(3) {
+  width: 100px;
+  height: 100px;
+  animation: move-3 7s ease-in-out infinite;
+}
+
+@keyframes move-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(60px, -30px) scale(1.1); }
+  66% { transform: translate(-40px, 40px) scale(0.9); }
+}
+
+@keyframes move-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-70px, -50px) scale(1.2); }
+}
+
+@keyframes move-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(70px, 50px) scale(0.8); }
+}
+
+.loading-text {
+  margin-top: 30px;
+  color: #1c2b39; /* Dark Slate for readability on white */
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}

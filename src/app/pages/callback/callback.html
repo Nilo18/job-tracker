@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org" version="1.1" style="display:none">
+  <defs>
+    <filter id="goo">
+      <!-- 'stdDeviation' controls how much they 'melt' together -->
+      <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur" />
+      <!-- The matrix values here prevent grey outlines on white backgrounds -->
+      <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo" />
+      <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
+    </filter>
+  </defs>
+</svg>

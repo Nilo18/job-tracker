@@ -1,4 +1,6 @@
-    .dashboard-stats {
+  @use '../../styles/mixins.scss' as *;
+  
+  .dashboard-stats {
         width: 100%;
         height: auto;
         // @include FlexContainer;
@@ -7,16 +9,97 @@
         // align-items: center;
         gap: 1rem;
 
-        .dashboard-stats-card {
-            width: 15rem;
-            min-height: 9.375rem;
+    .dashboard-stats-card {
+        width: 14.125rem;
+        height: 11.1rem;
+        padding: 1.5rem;
+        border: 1px solid oklch(0.928 0.006 264.531);
+        border-radius: 0.875rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08), 0 0 1px rgba(0, 0, 0, 0.1);
+                
+            // .card-body {
+                // width: 100%;
+                // height: 100%;
+                // padding: 0;
+                // @include FlexContainer;
+                // display: flex;
+                // justify-content: center;
+                // align-items: center;
+                // gap: 0;
 
-            h5 {
-                color: #0d6efd;
-            }
+                .card-icon-container {
+                    width: 100%;
+                    height: auto;
 
-            .card-body {
-                width: 100%;
-            }
+                    .card-icon-blue {
+                        background-color: #D9E8FF;
+                    }
+
+                    .card-icon-border-blue {
+                        color: #0059E3;
+                    }
+
+                    .card-icon-yellow {
+                        background-color: #FFF8D1;
+                    }
+
+                    .card-icon-border-yellow {
+                        color: #C78100;
+                    }
+
+                    .card-icon-green {
+                        background-color: #E1F9ED;
+                    }
+
+                    .card-icon-border-green {
+                        color: #00A344;
+                    }
+
+                    .card-icon-red {
+                        background-color: #FFE6E6;
+                    }
+
+                    .card-icon-border-red {
+                        color: #E60000;
+                    }
+
+                    .card-icon {
+                        width: 3rem;
+                        height: 3rem;
+                        border-radius: 0.625rem;
+                        // display: flex;
+                        // justify-content: center;
+                        // align-items: center;
+                        @include FlexContainer;
+
+                        svg {
+                            // background-color: #D9E8FF;
+                            width: 1.5rem;
+                            height: 1.5rem;
+                            // padding: 0.5rem;
+                        }
+                    }
+                }
+
+                h5 {
+                    color: #0d6efd;
+                }
+
+                .card-subtitle-container {
+                    width: 100%;
+                    height: 2rem;
+
+                    .card-subtitle {
+                        font-size: 1.8rem;
+                        font-weight: bold;
+                        color: rgb(0, 0, 0);
+                    }
+                }
+
+                .card-title-container {
+                    width: 100%;
+                    font-size: 1rem;
+                }
+            // }
         }
     }

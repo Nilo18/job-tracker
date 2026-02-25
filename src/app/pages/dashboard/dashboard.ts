@@ -170,4 +170,8 @@ export class Dashboard {
     // toggle requested field
     this.editing[id][field] = !this.editing[id][field]
   }
+
+  trackById(index: number, item: any) {
+  return item._id;  // or whatever unique key your object has
+}
 }

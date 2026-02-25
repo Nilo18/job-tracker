@@ -45,6 +45,7 @@ export class JobService {
   private http = inject(HttpClient)
   public jobsSubject: BehaviorSubject<any> = new BehaviorSubject<JobApplication[]>([])
   public jobsObs$ = this.jobsSubject.asObservable()
+  private total: number = 0
 
   search(query: string): Observable<any> {
     console.log(query)
@@ -65,6 +66,7 @@ export class JobService {
       const res = await firstValueFrom(this.http.get<JobApplicationResponse>(`${this.baseUrl}/jobs/${userId}`))
       console.log('The job applications are: ', res)
       console.log("The jobs inside the GET response are: ", res.jobs)
+      this.total = res.jobs.length
       this.jobsSubject.next(res.jobs)
       return res
     } catch (error) {
@@ -114,5 +116,9 @@ export class JobService {
       console.log("Couldn't delete job application: ", error)
       throw error
     }
+  }
+
+  getTotal() {
+    return this.total
   }
 }

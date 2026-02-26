@@ -13,7 +13,7 @@
         // height: 1px;
         // min-height: ;
         max-height: 37rem;
-        border: 1px solid;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08), 0 0 1px rgba(0, 0, 0, 0.1);
         border-radius: 0.825rem;
         margin-bottom: 100px;
         background-color: white;
@@ -23,23 +23,83 @@
         .dashboard-applications-header {
             width: 100%;
             height: 10.15rem;
-            border: 1px solid;
+            // border: 1px solid;
             border-top-right-radius: inherit;
             border-top-left-radius: inherit;
             padding: 1.5rem;
+            border-bottom-color: oklch(0.872 0.01 258.338);
             @include FlexContainerColumn;
 
             .dashboard-applications-header-interactions {
                 width: 100%;
                 height: 2.75rem;
-                border: 1px solid;
+                // border: 1px solid;
                 margin-bottom: 1.5rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .dashboard-applications-header-interactions-btn {
+                    background: linear-gradient(90deg, #2F5CFF 0%, #9C27FF 100%);
+                    color: white;
+                    border: none;
+                    border-radius: 0.625rem;
+                    padding: 8px 16px;
+                    width: 10.856rem;
+                    height: 2.5rem;
+                    @include FlexContainer;
+                    gap: 0.5rem;
+                    transition: 0.15s ease-in-out;
+                }
+
+                .dashboard-applications-header-interactions-btn:hover {
+                    opacity: 0.90;
+                }
             }
 
             .dashboard-applications-header-filter {
                 width: 100%;
                 height: 2.75rem;
-                border: 1px solid;
+                // border: 1px solid;
+                @include FlexContainer;
+                gap: 1rem;
+
+                .dashboard-applications-header-filter-left-side {
+                    @include FlexContainer;
+                    width: 83%;
+                    position: relative;
+
+                    mat-icon {
+                        position: absolute;
+                        left: 10px;
+                    }
+
+                    .dashboard-applications-header-filter-search {
+                        border-color: oklch(0.872 0.01 258.338);
+                        padding: 10px 16px 10px 44px
+                    }
+
+                    .dashboard-applications-header-filter-search::placeholder {
+                        color: oklch(63.27% 0.00513 258.518);
+                    }
+                }
+
+                .dashboard-applications-header-filter-right-side {
+                    @include FlexContainer;
+                    width: 17%;
+                    position: relative;
+
+                    svg {
+                        position: absolute;
+                        left: 10px;
+                    }
+
+                    .dashboard-applications-header-filter-select {
+                        border-color: oklch(0.872 0.01 258.338);
+                        gap: 0.25rem;
+                        padding: 10px 16px 10px 44px;
+                    }
+                }
             }
         }
 
@@ -50,13 +110,14 @@
             // max-height: 35.45rem;
             // min-height: 0;
             overflow-y: auto;
-            border: 1px solid;
+            // border: 1px solid;
             padding: 1.5rem;
             border-bottom-left-radius: inherit;
             border-bottom-right-radius: inherit;
             display: flex;
             flex-direction: column;
             gap: 1rem;
+            border-color: oklch(0.872 0.01 258.338);
 
             .dashboard-applications-body-content {
                 width: 100%;
@@ -65,6 +126,67 @@
                 // flex: 1;
                 border: 1px solid;
                 border-radius: 0.825rem;
+                border-color: oklch(0.872 0.01 258.338);
+
+                .dashboard-applications-body-content-header {
+                    display: flex;
+                    gap: 0.75rem;
+
+                    .dashboard-applications-body-content-header-icon {
+                        width: 2.25rem;
+                        height: 2.25rem;
+                        border-radius: 0.625rem;
+                        background-color: #e9e9ea;
+                        @include FlexContainer;
+                    }
+                }
+
+                .dashboard-applications-body-content-data {
+                    margin-left: 2.75rem;
+                }
+
+                .dashboard-applications-body-content-btns {
+                    display: flex;
+                    gap: 0.5rem;
+
+                    button {
+                        background-color: transparent;
+                        border: none;
+                        padding: 6px 12px;
+                        border-radius: 0.625rem;
+                        transition: 0.05s ease-in-out;
+                    }
+
+                    .dashboard-applications-body-content-btns-edit-btn {
+                        color: oklch(.546 .245 262.881);
+                        @include FlexContainer;
+                        gap: 0.375rem;
+
+                        svg {
+                            width: 1rem;
+                            height: 1rem;
+                        }
+                    }
+
+                    .dashboard-applications-body-content-btns-edit-btn:hover {
+                        background-color: oklch(95.245% 0.01968 270.224);
+                    }
+
+                    .dashboard-applications-body-content-btns-delete-btn {
+                        color: oklch(.577 .245 27.325);
+                        @include FlexContainer;
+                        gap: 0.375rem;
+
+                        svg {
+                            width: 1rem;
+                            height: 1rem;
+                        }
+                    }
+                    
+                    .dashboard-applications-body-content-btns-delete-btn:hover {
+                        background-color: oklch(94.977% 0.02516 14.351);
+                    }
+                }
             }
         }
         // table {

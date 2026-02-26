@@ -7,18 +7,82 @@
         <app-dashboard-stats [jobs$]="jobs$"></app-dashboard-stats>
         <section class="dashboard-applications">
             <div class="dashboard-applications-header">
-                <div class="dashboard-applications-header-interactions">
-                        <button (click)="showAddModal($event)">Add application</button>
+                    <div class="dashboard-applications-header-interactions">
+                        <h2>My Applications</h2>
+                        <button (click)="showAddModal($event)" class="dashboard-applications-header-interactions-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" 
+                            viewBox="0 -960 960 960" width="24px" fill="#1f1f1f">
+                                <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" fill="currentColor"/>
+                            </svg>
+                            Add application
+                        </button>
                     </div>
                     <div class="dashboard-applications-header-filter">
-                        a
+                        <div class="dashboard-applications-header-filter-left-side">
+                            <mat-icon>search</mat-icon>
+                            <input type="text" class="dashboard-applications-header-filter-search form-control"
+                            placeholder="Search by company, position, or location...">
+                        </div>
+                        <div class="dashboard-applications-header-filter-right-side">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" 
+                            fill="#1f1f1f">
+                                <path d="M440-160q-17 0-28.5-11.5T400-200v-240L168-736q-15-20-4.5-42t36.5-22h560q26 
+                                0 36.5 22t-4.5 42L560-440v240q0 17-11.5 28.5T520-160h-80Zm40-308 198-252H282l198 252Zm0 0Z"/>
+                            </svg>
+                            <select name="filter" class="dashboard-applications-header-filter-select form-select">
+                                <option value="all">All status</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Accepted">Accepted</option>
+                                <option value="Rejected">Rejected</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
+                <hr>
             @if (jobs$ | async) {
                 <div class="dashboard-applications-body">
                     @for (job of jobs$ | async; track job._id; let i = $index) {
                         <div class="dashboard-applications-body-content">
-                            <button (click)="deleteJobApp(data._id, job._id)">Delete</button>
+                            <div class="dashboard-applications-body-content-header">
+                                <div class="dashboard-applications-body-content-header-icon">
+                                    <mat-icon>account_balance</mat-icon>
+                                </div>
+                                <h3>{{job.company_name}}</h3>
+                            </div>
+                            <div class="dashboard-applications-body-content-data">
+                                <p>{{job.date_sent}}</p>
+                            </div>
+                            <hr style="color: gainsboro">
+                            <div class="dashboard-applications-body-content-btns">
+                                <button class="dashboard-applications-body-content-btns-edit-btn">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" 
+                                    fill="none" 
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
+                                    class="lucide lucide-pen w-4 h-4" 
+                                    aria-hidden="true" 
+                                    data-fg-dsni125=":6.2308:/components/Dashboard.tsx:282:29:13033:29:e:Edit2::::::Ca4I">
+                                        <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 
+                                            2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z">
+                                        </path>
+                                    </svg>
+                                    Edit
+                                </button>
+                                <button (click)="deleteJobApp(data._id, job._id)" 
+                                class="dashboard-applications-body-content-btns-delete-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" 
+                                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
+                                    class="lucide lucide-trash2 lucide-trash-2 w-4 h-4" 
+                                    aria-hidden="true" 
+                                    data-fg-dsni128=":6.2308:/components/Dashboard.tsx:289:29:13438:30:e:Trash2::::::c98">
+                                    <path d="M10 11v6"></path><path d="M14 11v6"></path>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6">
+                                    </path><path d="M3 6h18"></path><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                    </path>
+                                </svg>
+                                    Delete
+                                </button>
+                            </div>
                         </div>
                     }
                 </div>

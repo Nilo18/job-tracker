@@ -93,12 +93,12 @@ export class Dashboard {
     console.log("jobs observable in the service: ", this.jobsService.jobsObs$)
     this.jobs$ = this.jobsService.jobsObs$.pipe(
       tap(jobs => console.log(`The jobs are: `, jobs)),
-      map(jobs =>
-        jobs.map((job: JobApplication) => ({
-          ...job,
-          date_sent: new Date(job.date_sent).toLocaleDateString('en-GB')
-        }))
-      ),
+      // map(jobs =>
+      //   jobs.map((job: JobApplication) => ({
+      //     ...job,
+      //     date_sent: new Date(job.date_sent).toLocaleDateString('en-GB')
+      //   }))
+      // ),
       // tap(() => {
         // this.pageLoading = false;
       // })
@@ -118,40 +118,58 @@ export class Dashboard {
     })
   }
 
+  showAddModalInEditMode(event: MouseEvent, job: JobApplication) {
+    (event.target as HTMLElement).blur();
+
+    const modalRef = this.modalService.open(JobApplicationAddModal, {
+      centered: true,
+      size: 'lg',
+      backdrop: 'static'
+    })
+
+    // console.log("Passing userId: ", this.data.userId)
+    // console.log("Passing id: ", this.data.id)
+    modalRef.componentInstance.id = job._id
+    modalRef.componentInstance.company_name = job.company_name
+    const formattedDate = new Date(job.date_sent).toISOString().split('T')[0];
+    modalRef.componentInstance.date_sent = formattedDate
+    modalRef.componentInstance.status = job.status
+  }
+
   async deleteJobApp(userId: string, id: string | undefined) {
     console.log("I run")
     const res = await this.jobsService.deleteJobApplication(userId, id)
   }
 
-  async editJobApp(id: string | undefined, propertyName: string, val: string | null) {
-    console.log("I am editJobApp and I run.")
-    console.log('The edit input field value is: ', val)
+  // async editJobApp(id: string | undefined, propertyName: string, val: string | null) {
+  //   console.log("I am editJobApp and I run.")
+  //   console.log('The edit input field value is: ', val)
 
-    if (val?.trim() === '') {
-      console.log('Edit input value can not be empty.')
-      return
-    }
+  //   if (val?.trim() === '') {
+  //     console.log('Edit input value can not be empty.')
+  //     return
+  //   }
 
-    if (!id) {
-      console.log('The id of the job application must be valid')
-      return
-    }
+  //   if (!id) {
+  //     console.log('The id of the job application must be valid')
+  //     return
+  //   }
 
-    const body: ApplicationUpdateProperties = {
-      userId: this.data._id,
-      id: id,
-      field: propertyName,
-      newValue: val
-    }
+  //   const body: ApplicationUpdateProperties = {
+  //     userId: this.data._id,
+  //     id: id,
+  //     field: propertyName,
+  //     newValue: val
+  //   }
 
-    console.log("The final body before sending the request is: ", body)
+  //   console.log("The final body before sending the request is: ", body)
 
-    const res = await this.jobsService.updateJobApplication(body)
+  //   const res = await this.jobsService.updateJobApplication(body)
 
-    for (const key of Object.keys(this.editing[id]) as Array<'name' | 'date' | 'status'>) {
-      this.editing[id][key] = false
-    }
-  }
+  //   for (const key of Object.keys(this.editing[id]) as Array<'name' | 'date' | 'status'>) {
+  //     this.editing[id][key] = false
+  //   }
+  // }
 
   toggleEdit(id: string | undefined, field: 'name' | 'date' | 'status') {
     if (!id) {
@@ -172,6 +190,6 @@ export class Dashboard {
   }
 
   trackById(index: number, item: any) {
-  return item._id;  // or whatever unique key your object has
-}
+    return item._id;  // or whatever unique key your object has
+  }
 }

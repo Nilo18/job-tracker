@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { JobService } from '../../services/job-service';
+import { ApplicationUpdateProperties, JobService } from '../../services/job-service';
 import { jwtDecode } from 'jwt-decode';
 
 @Component({
@@ -14,18 +14,29 @@ export class JobApplicationAddModal {
   jobappform!: FormGroup
   token!: string | null
   decodedToken: any = null
+  company_name!: string
+  date_sent!: string
+  status!: string
+  id!: string
+  btnText: string = 'Add'
 
   constructor (public activeModal: NgbActiveModal, private fb: FormBuilder, public jobsService: JobService) {}
 
   ngOnInit() {
     this.token = localStorage.getItem('jobF_token')
+
+    if (this.company_name && this.date_sent && this.status) {
+      console.log("date_sent was received as: ", this.date_sent)
+      this.btnText = 'Save Changes'
+    }
+
     if (this.token) {
       this.decodedToken = jwtDecode(this.token)
       this.jobappform = this.fb.group({
         userId: this.decodedToken._id,
-        company_name: ['', [Validators.required]],
-        date_sent: ['', Validators.required],
-        status: ['Pending', Validators.required]
+        company_name: [this.company_name || '', [Validators.required]],
+        date_sent: [this.date_sent || '', Validators.required],
+        status: [this.status || 'Pending', Validators.required]
       })
       console.log(typeof this.jobappform.value.date_sent)
     } else {
@@ -37,7 +48,20 @@ export class JobApplicationAddModal {
     if (this.token && this.decodedToken) {
       console.log(typeof this.jobappform.value.date_sent)
       console.log(this.jobappform.value)
-      await this.jobsService.addJobApplication(this.jobappform.value)
+      if (!this.company_name && !this.date_sent && !this.status && !this.id) {
+        await this.jobsService.addJobApplication(this.jobappform.value)
+      } else {
+        const body = {
+          id: this.id,
+          newObject: this.jobappform.value
+        }
+    
+        console.log("The final body before sending the request is: ", body)
+        console.log('jobappForm value is: ', body.newObject)
+
+        const res = await this.jobsService.updateJobApplication(body)
+        console.log("Received response after updating job application: ", res)
+      }
     }
   }
 }

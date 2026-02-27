@@ -50,11 +50,12 @@
                                 <h3>{{job.company_name}}</h3>
                             </div>
                             <div class="dashboard-applications-body-content-data">
-                                <p>{{job.date_sent}}</p>
+                                <p>{{job.date_sent | date: 'dd/MM/yyyy'}}</p>
                             </div>
                             <hr style="color: gainsboro">
                             <div class="dashboard-applications-body-content-btns">
-                                <button class="dashboard-applications-body-content-btns-edit-btn">
+                                <button class="dashboard-applications-body-content-btns-edit-btn" 
+                                (click)="showAddModalInEditMode($event, job)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" 
                                     fill="none" 
                                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 

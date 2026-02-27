@@ -30,10 +30,11 @@ export interface EditedApplicationResponse {
 }
 
 export interface ApplicationUpdateProperties {
-  userId: string,
-  id: string,
-  field: string,
-  newValue: string | null
+  id: string
+  newObject: JobApplication
+  // newObject: 
+  // field: string,
+  // newValue: string | null
 }
 
 @Injectable({
@@ -90,9 +91,9 @@ export class JobService {
 
   async updateJobApplication(properties: ApplicationUpdateProperties) {
     try {
-      const res = await firstValueFrom(this.http.patch<EditedApplicationResponse>(`${this.baseUrl}/jobs`, properties))
+      const res = await firstValueFrom(this.http.put<EditedApplicationResponse>(`${this.baseUrl}/jobs`, properties))
       console.log(res)
-      const old = this.jobsSubject.getValue().find((job: JobApplication) => job._id === properties.id)
+      const old = this.jobsSubject.getValue().find((job: JobApplication) => job._id === properties.newObject._id)
       const updated = this.jobsSubject.getValue().map((job: JobApplication) => job._id === res.jobApp._id ? res.jobApp : job)
       this.jobsSubject.next(updated)
       console.log('The job application that was edited was: ', old)

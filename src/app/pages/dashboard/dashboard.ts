@@ -21,11 +21,6 @@ export class Dashboard {
   showLoggedInHeader: boolean = false
   showModal: boolean = false
   jobs$!: Observable<JobApplication[]>;
-  editing: Record<string, {
-    name: boolean
-    date: boolean
-    status: boolean
-  }> = {}
   baseURL: string = "http://localhost:3000"
   // pageLoading: boolean = true
 
@@ -35,57 +30,15 @@ export class Dashboard {
 
  async ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
-      // // console.log(window.location.hash)
-      // const hash = window.location.search.substring(1) // Remove #
-      // const urlG = new URLSearchParams(hash)
-      // console.log(hash)
-      // console.log("access_token: ", urlG.get("access_token"))
-      // console.log("code: ", urlG.get("code"))
-      // // try {
-      //   console.log("Running outside the if check in dashboard ngOnInit")
-      //   let token = localStorage.getItem('jobF_token') 
-      //   if (!token) {
-      //     // this.pageLoading = true
-      //     // console.log("Loading screen should be displayed: ", this.pageLoading)
-      //     console.log("Running....")
-      //     // const idToken = this.oAuthService.getIdToken();
-      //     const code = urlG.get('code')
-      //     const codeVerifier = sessionStorage.getItem('PKCE_verifier')
-      //     console.log("Code verifier is: ", codeVerifier)
-
-      //     const res = await firstValueFrom(this.http.post<GoogleAuthServerResponse>(`${this.baseURL}/api/auth/login`, {
-      //       provider: 'google',
-      //       code: code,
-      //       code_verifier: codeVerifier
-      //     }))
-
-      //     console.log("Received response from the backend: ", res)
-      //     localStorage.setItem('jobF_token', res.token)
-      //     token = res.token
-      //     console.log("Saved token to localStorage")
-      //   }
-
-        const token = localStorage.getItem('jobF_token')
-        window.history.replaceState({}, document.title, window.location.pathname);
-        if (token) {
-          console.log("Cleared URL input")
-          const data = jwtDecode(token)
-          this.data = data
-          this.showLoggedInHeader = true
-          console.log("Decoded token is: ", this.data)
-        }
-        // console.log("Loading screen should be displayed: ", this.pageLoading)
-        // this.cd.detectChanges()
-        // this.pageLoading = false
-        // this.cd.detectChanges()
-        // console.log("Loading screen should be displayed: ", this.pageLoading)
-      // } catch (error) {
-      //   console.log("Auth check failed: ", error)
-      // } 
-      // finally {
-      //   this.pageLoading = false
-      //   console.log("Loading screen should be displayed: ", this.pageLoading)
-      // }
+      const token = localStorage.getItem('jobF_token')
+      window.history.replaceState({}, document.title, window.location.pathname);
+      if (token) {
+        console.log("Cleared URL input")
+        const data = jwtDecode(token)
+        this.data = data
+        this.showLoggedInHeader = true
+        console.log("Decoded token is: ", this.data)
+      }
     }
     
     console.log("_id is: ", this.data._id)
@@ -141,55 +94,19 @@ export class Dashboard {
     const res = await this.jobsService.deleteJobApplication(userId, id)
   }
 
-  // async editJobApp(id: string | undefined, propertyName: string, val: string | null) {
-  //   console.log("I am editJobApp and I run.")
-  //   console.log('The edit input field value is: ', val)
-
-  //   if (val?.trim() === '') {
-  //     console.log('Edit input value can not be empty.')
-  //     return
-  //   }
-
-  //   if (!id) {
-  //     console.log('The id of the job application must be valid')
-  //     return
-  //   }
-
-  //   const body: ApplicationUpdateProperties = {
-  //     userId: this.data._id,
-  //     id: id,
-  //     field: propertyName,
-  //     newValue: val
-  //   }
-
-  //   console.log("The final body before sending the request is: ", body)
-
-  //   const res = await this.jobsService.updateJobApplication(body)
-
-  //   for (const key of Object.keys(this.editing[id]) as Array<'name' | 'date' | 'status'>) {
-  //     this.editing[id][key] = false
-  //   }
-  // }
-
-  toggleEdit(id: string | undefined, field: 'name' | 'date' | 'status') {
-    if (!id) {
-      console.log('id is undefined')
-      return
-    }
-
-    // lazy initialization
-    this.editing[id] ??= { name: false, date: false, status: false }
-
-    // close other fields
-    // for (const key of Object.keys(this.editing[id]) as Array<'name' | 'date' | 'status'>) {
-    //   this.editing[id][key] = false
-    // }
-
-    // toggle requested field
-    this.editing[id][field] = !this.editing[id][field]
-  }
-
   trackById(index: number, item: any) {
     return item._id;  // or whatever unique key your object has
+  }
+
+  determineStatusContainerColor(status: string) {
+    const normalizedStatus = status.trim().toLowerCase()
+
+    if (normalizedStatus === 'pending') {
+      return 'yellow-container'
+    } else if (normalizedStatus === 'accepted') {
+      return 'green-container'
+    } else {
+      return 'red-container'
+    }
   }
 }

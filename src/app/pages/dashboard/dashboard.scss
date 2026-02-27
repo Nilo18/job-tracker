@@ -128,21 +128,63 @@
                 border-radius: 0.825rem;
                 border-color: oklch(0.872 0.01 258.338);
 
-                .dashboard-applications-body-content-header {
+
+                .dashboard-applications-body-content-top {
                     display: flex;
-                    gap: 0.75rem;
+                    justify-content: space-between;
+                    // align-items: center;
 
-                    .dashboard-applications-body-content-header-icon {
-                        width: 2.25rem;
-                        height: 2.25rem;
-                        border-radius: 0.625rem;
-                        background-color: #e9e9ea;
-                        @include FlexContainer;
+                    .dashboard-applications-body-content-top-left {
+                        display: flex;
+
+
+                        .dashboard-applications-body-content-header {
+                            display: flex;
+                            gap: 0.75rem;
+
+                            .dashboard-applications-body-content-header-icon {
+                                margin-top: 0.3rem;
+                                width: 2.25rem;
+                                height: 2.25rem;
+                                border-radius: 0.625rem;
+                                background-color: #e9e9ea;
+                                @include FlexContainer;
+                            }
+                        }
+
+                        .dashboard-applications-body-content-data {
+                            margin-left: 1rem;
+                        }
                     }
-                }
 
-                .dashboard-applications-body-content-data {
-                    margin-left: 2.75rem;
+                    .dashboard-applications-body-content-top-right {
+                        .yellow-container {
+                            background-color: #FFF8D1;
+                            border: 1px solid #fab431;
+                            color: #C78100;
+                        }
+
+                        .green-container {
+                            background-color: #E1F9ED;
+                            border: 1px solid #00A344;
+                            color: #00A344;
+                        }
+
+                        .red-container {
+                            background-color: #FFE6E6;
+                            border: 1px solid #dd5656;
+                            color: #E60000;
+                        }
+
+                        .dashboard-applications-body-content-top-right-status-container {
+                            width: 4.852rem;
+                            height: 1.85rem;
+                            // border: 1px solid;
+                            @include FlexContainer;
+                            padding: 4px 12px;
+                            border-radius: 2.426rem;
+                        }
+                    }
                 }
 
                 .dashboard-applications-body-content-btns {
@@ -189,68 +231,5 @@
                 }
             }
         }
-        // table {
-        //     tr {
-        //         text-align: center;
-        //         vertical-align: middle;
-        //         // display: flex;
-        //         // justify-content: center;
-        //         // align-items: center;
-
-        //         td {
-        //             height: 50px;
-        //         }
-
-        //         .dashboard-apptable-td {
-        //             display: flex;
-        //             justify-content: center;
-        //             align-items: center;
-        //             gap: 5px;
-        //             // vertical-align: middle;
-        //             mat-icon {
-        //                 cursor: pointer;
-        //             }
-
-        //             input {
-        //                 height: 25px;
-        //                 width: 140px;
-        //             }
-        //         }
-        //     }
-
-        //     tbody {
-        //         .custom-table-btn {
-        //             border: none;
-        //             color: white;
-        //             background-color: rgb(243, 58, 58);
-        //             width: 4rem;
-        //             height: 1.5rem;
-        //             border-radius: 4px;
-        //             transition: 0.15s ease-in-out;
-        //         }
-
-        //         .custom-table-btn:hover {
-        //             background-color: rgb(208, 47, 47);
-
-        //         }
-        //     }
-        // }
-
-        // .dashboard-addapplication-btn-container {
-        //     width: 100%;
-        //     height: auto;
-        //     display: flex;
-        //     justify-content: end;
-        //     align-items: center;
-
-        //     button {
-        //         width: 2.5rem;
-        //         height: 2.5rem;
-        //         border: none;
-        //         background-color: green;
-        //         border-radius: 50%;
-        //         color: white;
-        //     }
-        // }
     }
 }

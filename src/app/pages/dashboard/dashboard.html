@@ -38,7 +38,7 @@
                         </div>
                     </div>
                 </div>
-                <hr>
+                <!-- <hr> -->
             @if (jobs$ | async) {
                 <div class="dashboard-applications-body">
                     @for (job of jobs$ | async; track job._id; let i = $index) {
@@ -51,8 +51,51 @@
                                         </div>
                                     </div>
                                     <div class="dashboard-applications-body-content-data">
-                                        <h3>{{job.company_name}}</h3>
-                                        <p>{{job.date_sent | date: 'dd/MM/yyyy'}}</p>
+                                        <h3>{{job.position}}</h3>
+                                        <p>{{job.company_name}}</p>
+                                        <div class="dashboard-applications-body-content-data-details">
+                                            <div class="dashboard-applications-body-content-data-date">
+                                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" 
+                                                viewBox="0 -960 960 960" width="24px" fill="#1f1f1f">
+                                                    <path d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 
+                                                    23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 
+                                                    56.5 23.5T840-720v560q0 33-23.5 
+                                                    56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Z"/>
+                                                </svg>
+                                                <p>
+                                                    {{job.date_sent | date: 'dd/MM/yyyy'}}
+                                                </p>
+                                            </div>
+                                            <div class="dashboard-applications-body-content-data-location">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round" class="lucide lucide-map-pin w-4 h-4">
+                                                    <path d="M20 10c0 4.993-5.539 10.193-7.399 
+                                                    11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 
+                                                    14.993 4 10a8 8 0 0 1 16 0">
+                                                    </path>
+                                                    <circle cx="12" cy="10" r="3"></circle>
+                                                </svg>                                                
+                                                <p>
+                                                    {{job.location}}
+                                                </p>
+                                            </div>
+                                            @if (job.min_salary && job.max_salary) {
+                                                <div class="dashboard-applications-body-content-data-salary">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
+                                                    viewBox="0 0 24 24" fill="none" 
+                                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" 
+                                                    stroke-linejoin="round" class="lucide lucide-dollar-sign w-4 h-4">
+                                                        <line x1="12" x2="12" y1="2" y2="22"></line>
+                                                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                                                    </svg>                                               
+                                                    <p>
+                                                        {{job.min_salary}} - {{job.max_salary}}
+                                                    </p>
+                                                </div>
+                                            }
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="dashboard-applications-body-content-top-right">

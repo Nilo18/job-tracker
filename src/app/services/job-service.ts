@@ -12,7 +12,11 @@ export interface JobApplication {
   _id: string,
   userId: string,
   company_name: string,
+  position: string,
   date_sent: Date | string,
+  location: string,
+  min_salary?: number,
+  max_salary?: number,
   status: JobApplicationStatus
 }
 

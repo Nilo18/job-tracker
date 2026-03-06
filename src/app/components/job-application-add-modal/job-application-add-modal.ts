@@ -35,7 +35,11 @@ export class JobApplicationAddModal {
       this.jobappform = this.fb.group({
         userId: this.decodedToken._id,
         company_name: [this.company_name || '', [Validators.required]],
-        date_sent: [this.date_sent || '', Validators.required],
+        position: ['', [Validators.required]],
+        date_sent: [this.date_sent || '', [Validators.required]],
+        location: ['', Validators.required],
+        min_salary: ['', [Validators.max(10000000)]],
+        max_salary: ['', [Validators.max(10000000)]],
         status: [this.status || 'Pending', Validators.required]
       })
       console.log(typeof this.jobappform.value.date_sent)
@@ -64,4 +68,27 @@ export class JobApplicationAddModal {
       }
     }
   }
+
+  blockNegative(event: KeyboardEvent): void {
+    // Block '-' (Minus) and 'e' (Scientific notation)
+    if (['-', 'e', 'E', '+'].includes(event.key)) {
+      event.preventDefault();
+    }
+  }
+
+    blockNonNumbers(event: KeyboardEvent): void {
+    // 1. Allow functional keys (navigation/deletion)
+    const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', 'Enter'];
+    
+    if (allowedKeys.includes(event.key)) {
+      return; // Let these happen
+    }
+
+    // 2. Block anything that isn't a digit (0-9)
+    // This blocks '-', 'e', '.', '+', and all letters
+    if (!/^[0-9]$/.test(event.key)) {
+      event.preventDefault();
+    }
+  }
+
 }

@@ -65,10 +65,15 @@ export class JobService {
     })
   }
 
-  async getJobApplications(userId: string) {
+  async getJobApplications(userId: string, keyword?: string, filter?: string) {
     try {
       console.log('Sending to this url: ', `${this.baseUrl}/jobs/${userId}`)
-      const res = await firstValueFrom(this.http.get<JobApplicationResponse>(`${this.baseUrl}/jobs/${userId}`))
+      const res = await firstValueFrom(this.http.get<JobApplicationResponse>(`${this.baseUrl}/jobs/${userId}`, {
+        params: {
+          keyword: keyword ?? '',
+          filter: filter ?? ''
+        }
+      }))
       console.log('The job applications are: ', res)
       console.log("The jobs inside the GET response are: ", res.jobs)
       this.total = res.jobs.length
@@ -126,4 +131,24 @@ export class JobService {
   getTotal() {
     return this.total
   }
+
+  // async searchJobs(userId: string, keyword?: string, filter?: string) {
+  //   if (!userId) {
+  //     console.log('userId needed.')
+  //     return  
+  //   }
+    
+  //   const obs: Observable<any> = this.http.get<any>(`${this.baseUrl}/jobs/${userId}`, {
+  //     params: {
+  //       keyword: keyword ?? '',
+  //       filter: filter ?? ''
+  //     }
+  //   })
+
+  //   const obsData = await firstValueFrom(obs)
+  //   this.jobsSubject.next(obsData.jobs)
+  //   this.total = obsData.jobs.length
+
+  //   // return obs
+  // }
 }

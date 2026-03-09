@@ -5,7 +5,7 @@ import { jwtDecode } from 'jwt-decode';
 import { JobApplicationAddModal } from '../../components/job-application-add-modal/job-application-add-modal';
 import { ApplicationUpdateProperties, JobApplication, JobService } from '../../services/job-service';
 import { GoogleAuthServerResponse } from '../../services/google-api-service';
-import { firstValueFrom, map, Observable, tap } from 'rxjs';
+import { debounceTime, firstValueFrom, map, Observable, tap } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { HttpClient } from '@angular/common/http';
@@ -22,13 +22,17 @@ export class Dashboard {
   showModal: boolean = false
   jobs$!: Observable<JobApplication[]>;
   baseURL: string = "http://localhost:3000"
+  searchBar = new FormControl()
+  statusSelect = new FormControl()
+  searchVal: string = ''
+  statusVal: string = ''
   // pageLoading: boolean = true
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object, private modalService: NgbModal, 
   public jobsService: JobService, public oAuthService: OAuthService, private http: HttpClient, 
   private cd: ChangeDetectorRef) {}
 
- async ngOnInit() {
+  async ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
       const token = localStorage.getItem('jobF_token')
       window.history.replaceState({}, document.title, window.location.pathname);
@@ -39,7 +43,26 @@ export class Dashboard {
         this.showLoggedInHeader = true
         console.log("Decoded token is: ", this.data)
       }
-    }
+      // console.log('a')
+      this.searchBar.valueChanges.pipe(
+        tap(() => {
+          console.log("Search bar value is: ", this.searchBar.value)
+        }),
+        debounceTime(300),
+      ).subscribe(val => {
+        this.searchVal = val
+        this.jobsService.getJobApplications(this.data._id, this.searchVal, this.statusVal)
+      })
+
+      this.statusSelect.valueChanges.pipe(
+        tap(() => {
+          console.log("Status select value is: ", this.statusSelect.value)
+        })
+      ).subscribe(val => {
+        this.statusVal = val;
+        this.jobsService.getJobApplications(this.data._id, this.searchVal, this.statusVal)
+      })
+  }
     
     console.log("_id is: ", this.data._id)
     this.jobsService.getJobApplications(this.data._id)

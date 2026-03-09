@@ -21,7 +21,8 @@
                         <div class="dashboard-applications-header-filter-left-side">
                             <mat-icon>search</mat-icon>
                             <input type="text" class="dashboard-applications-header-filter-search form-control"
-                            placeholder="Search by company, position, or location...">
+                            placeholder="Search by company, position, or location..."
+                            [formControl]="searchBar">
                         </div>
                         <div class="dashboard-applications-header-filter-right-side">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" 
@@ -29,7 +30,8 @@
                                 <path d="M440-160q-17 0-28.5-11.5T400-200v-240L168-736q-15-20-4.5-42t36.5-22h560q26 
                                 0 36.5 22t-4.5 42L560-440v240q0 17-11.5 28.5T520-160h-80Zm40-308 198-252H282l198 252Zm0 0Z"/>
                             </svg>
-                            <select name="filter" class="dashboard-applications-header-filter-select form-select">
+                            <select name="filter" class="dashboard-applications-header-filter-select form-select"
+                            [formControl]="statusSelect">
                                 <option value="all">All status</option>
                                 <option value="Pending">Pending</option>
                                 <option value="Accepted">Accepted</option>
@@ -38,7 +40,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- <hr> -->
+                <hr>
             @if (jobs$ | async) {
                 <div class="dashboard-applications-body">
                     @for (job of jobs$ | async; track job._id; let i = $index) {

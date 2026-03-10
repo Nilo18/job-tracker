@@ -26,7 +26,6 @@ export class Dashboard {
   statusSelect = new FormControl('all', {nonNullable: true})
   searchVal: string = ''
   statusVal: string = ''
-  // pageLoading: boolean = true
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object, private modalService: NgbModal, 
   public jobsService: JobService, public oAuthService: OAuthService, private http: HttpClient, 
@@ -43,7 +42,6 @@ export class Dashboard {
         this.showLoggedInHeader = true
         console.log("Decoded token is: ", this.data)
       }
-      // console.log('a')
       this.searchBar.valueChanges.pipe(
         tap(() => {
           console.log("Search bar value is: ", this.searchBar.value)
@@ -69,15 +67,6 @@ export class Dashboard {
     console.log("jobs observable in the service: ", this.jobsService.jobsObs$)
     this.jobs$ = this.jobsService.jobsObs$.pipe(
       tap(jobs => console.log(`The jobs are: `, jobs)),
-      // map(jobs =>
-      //   jobs.map((job: JobApplication) => ({
-      //     ...job,
-      //     date_sent: new Date(job.date_sent).toLocaleDateString('en-GB')
-      //   }))
-      // ),
-      // tap(() => {
-        // this.pageLoading = false;
-      // })
     );
     
     this.cd.detectChanges()
@@ -103,8 +92,6 @@ export class Dashboard {
       backdrop: 'static'
     })
 
-    // console.log("Passing userId: ", this.data.userId)
-    // console.log("Passing id: ", this.data.id)
     modalRef.componentInstance.id = job._id
     modalRef.componentInstance.company_name = job.company_name
     modalRef.componentInstance.position = job.position
@@ -122,7 +109,7 @@ export class Dashboard {
   }
 
   trackById(index: number, item: any) {
-    return item._id;  // or whatever unique key your object has
+    return item._id; 
   }
 
   determineStatusContainerColor(status: string) {

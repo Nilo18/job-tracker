@@ -74,22 +74,18 @@ export class JobApplicationAddModal {
   }
 
   blockNegative(event: KeyboardEvent): void {
-    // Block '-' (Minus) and 'e' (Scientific notation)
     if (['-', 'e', 'E', '+'].includes(event.key)) {
       event.preventDefault();
     }
   }
 
     blockNonNumbers(event: KeyboardEvent): void {
-    // 1. Allow functional keys (navigation/deletion)
     const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', 'Enter'];
     
     if (allowedKeys.includes(event.key)) {
-      return; // Let these happen
+      return; 
     }
 
-    // 2. Block anything that isn't a digit (0-9)
-    // This blocks '-', 'e', '.', '+', and all letters
     if (!/^[0-9]$/.test(event.key)) {
       event.preventDefault();
     }

@@ -15,7 +15,11 @@ export class JobApplicationAddModal {
   token!: string | null
   decodedToken: any = null
   company_name!: string
+  position!: string
   date_sent!: string
+  location!: string
+  min_salary!: string
+  max_salary!: string
   status!: string
   id!: string
   btnText: string = 'Add'
@@ -35,12 +39,12 @@ export class JobApplicationAddModal {
       this.jobappform = this.fb.group({
         userId: this.decodedToken._id,
         company_name: [this.company_name || '', [Validators.required]],
-        position: ['', [Validators.required]],
+        position: [this.position || '', [Validators.required]],
         date_sent: [this.date_sent || '', [Validators.required]],
-        location: ['', Validators.required],
-        min_salary: ['', [Validators.max(10000000)]],
-        max_salary: ['', [Validators.max(10000000)]],
-        status: [this.status || 'Pending', Validators.required]
+        location: [this.location || '', [Validators.required]],
+        min_salary: [this.min_salary || '', [Validators.max(10000000)]],
+        max_salary: [this.max_salary || '', [Validators.max(10000000)]],
+        status: [this.status || 'Pending', [Validators.required]]
       })
       console.log(typeof this.jobappform.value.date_sent)
     } else {

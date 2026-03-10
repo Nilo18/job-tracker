@@ -23,7 +23,7 @@ export class Dashboard {
   jobs$!: Observable<JobApplication[]>;
   baseURL: string = "http://localhost:3000"
   searchBar = new FormControl()
-  statusSelect = new FormControl()
+  statusSelect = new FormControl('all', {nonNullable: true})
   searchVal: string = ''
   statusVal: string = ''
   // pageLoading: boolean = true
@@ -107,8 +107,12 @@ export class Dashboard {
     // console.log("Passing id: ", this.data.id)
     modalRef.componentInstance.id = job._id
     modalRef.componentInstance.company_name = job.company_name
+    modalRef.componentInstance.position = job.position
     const formattedDate = new Date(job.date_sent).toISOString().split('T')[0];
     modalRef.componentInstance.date_sent = formattedDate
+    modalRef.componentInstance.location = job.location
+    modalRef.componentInstance.min_salary = job.min_salary
+    modalRef.componentInstance.max_salary = job.max_salary
     modalRef.componentInstance.status = job.status
   }
 

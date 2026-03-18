@@ -5,7 +5,7 @@ import { jwtDecode } from 'jwt-decode';
 import { JobApplicationAddModal } from '../../components/job-application-add-modal/job-application-add-modal';
 import { ApplicationUpdateProperties, JobApplication, JobService } from '../../services/job-service';
 import { GoogleAuthServerResponse } from '../../services/google-api-service';
-import { debounceTime, firstValueFrom, map, Observable, tap } from 'rxjs';
+import { debounceTime, filter, firstValueFrom, map, Observable, skip, startWith, tap } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { HttpClient } from '@angular/common/http';
@@ -26,6 +26,9 @@ export class Dashboard {
   statusSelect = new FormControl('all', {nonNullable: true})
   searchVal: string = ''
   statusVal: string = ''
+  // getResponse: any
+  jobTotal!: number
+  isLoading: boolean = true
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object, private modalService: NgbModal, 
   public jobsService: JobService, public oAuthService: OAuthService, private http: HttpClient, 
@@ -33,6 +36,7 @@ export class Dashboard {
 
   async ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
+      console.log("isLoading is: ", this.isLoading)
       const token = localStorage.getItem('jobF_token')
       window.history.replaceState({}, document.title, window.location.pathname);
       if (token) {
@@ -42,14 +46,19 @@ export class Dashboard {
         this.showLoggedInHeader = true
         console.log("Decoded token is: ", this.data)
       }
+
       this.searchBar.valueChanges.pipe(
         tap(() => {
           console.log("Search bar value is: ", this.searchBar.value)
         }),
         debounceTime(300),
       ).subscribe(val => {
+        console.log("RUNNING INSIDE SUBSCRIBE")
         this.searchVal = val
         this.jobsService.getJobApplications(this.data._id, this.searchVal, this.statusVal)
+        this.jobTotal = this.jobsService.getTotal()
+        // this.isLoading = false
+        console.log("jobsTotal is: ", this.jobTotal)
       })
 
       this.statusSelect.valueChanges.pipe(
@@ -57,16 +66,30 @@ export class Dashboard {
           console.log("Status select value is: ", this.statusSelect.value)
         })
       ).subscribe(val => {
+        console.log("RUNNING INSIDE SUBSCRIBE")
         this.statusVal = val;
         this.jobsService.getJobApplications(this.data._id, this.searchVal, this.statusVal)
+        this.jobTotal = this.jobsService.getTotal()
+        // this.isLoading = false
+        console.log("jobsTotal is: ", this.jobTotal)
       })
   }
     
     console.log("_id is: ", this.data._id)
+    console.log("RUNNING OUTSIDE SUBSCRIBE")
     this.jobsService.getJobApplications(this.data._id)
     console.log("jobs observable in the service: ", this.jobsService.jobsObs$)
     this.jobs$ = this.jobsService.jobsObs$.pipe(
-      tap(jobs => console.log(`The jobs are: `, jobs)),
+      // startWith([]),
+      filter((jobs): jobs is JobApplication[] => jobs !== null),
+      tap(jobs => { 
+        console.log("isLoading is: ", this.isLoading)
+        console.log(`The jobs are: `, jobs)
+        this.jobTotal = jobs.length
+        this.isLoading = false
+        console.log("isLoading is: ", this.isLoading)
+        // console.log("jobsTotal is: ", this.jobTotal)
+      }),
     );
     
     this.cd.detectChanges()

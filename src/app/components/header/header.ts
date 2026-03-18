@@ -1,4 +1,5 @@
-import { Component, inject, Input } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Component, Inject, inject, Input, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -8,19 +9,5 @@ import { Router } from '@angular/router';
   styleUrl: './header.scss',
 })
 export class Header {
-  @Input() loggedIn: boolean = false
-  @Input() userData: any = {}
 
-  private router = inject(Router)
-
-  ngOnInit() {
-    console.log("loggedIn value is: ", this.loggedIn)
-    console.log("The userData is: ", this.userData)
-    console.log(this.userData.profilePicture)
-  }
-
-  logout() {
-    localStorage.removeItem('jobF_token')
-    this.router.navigate(['/'])
-  }
 }

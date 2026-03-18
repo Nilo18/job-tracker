@@ -103,3 +103,19 @@
             // }
         }
     }
+
+@media (min-width: 300px) and (max-width: 899.98px) {
+    .dashboard-stats {
+        flex-direction: column;
+
+        .dashboard-stats-card {
+            width: 100%;
+        }
+    }
+}
+
+// @media (max-width: 599.98px) {
+//     .dashboard-stats {
+//         width: 300px;
+//     }
+// }

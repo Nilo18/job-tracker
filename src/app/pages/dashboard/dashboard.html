@@ -1,5 +1,5 @@
 <!-- @if (jobs$ | async) { -->
-<app-header [loggedIn]="showLoggedInHeader" [userData]="data"></app-header>
+<app-loggedin-header [userData]="data"></app-loggedin-header>
 <div class="cont">
     <div class="dashboard d-flex flex-column gap-4 mt-5">
         <!-- <img [src]="data.picture" alt="Profile image"> -->
@@ -41,110 +41,133 @@
                     </div>
                 </div>
                 <hr>
-            @if (jobs$ | async) {
+            <!-- @if (jobs$ | async) { -->
                 <div class="dashboard-applications-body">
-                    @for (job of jobs$ | async; track job._id; let i = $index) {
-                        <div class="dashboard-applications-body-content">
-                            <div class="dashboard-applications-body-content-top">
-                                <div class="dashboard-applications-body-content-top-left">
-                                    <div class="dashboard-applications-body-content-header">
-                                        <div class="dashboard-applications-body-content-header-icon">
-                                            <mat-icon>account_balance</mat-icon>
+                @if (isLoading) {
+                    <p>Loading...</p>
+                } @else {
+                <ng-container *ngIf="jobs$ | async as jobs">
+                    @if (jobs.length === 0) {
+                        <div class="dashboard-applications-body-empty-template w-100 h-100 d-flex flex-column 
+                        justify-content-center align-items-center ">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="64px" 
+                            viewBox="0 -960 960 960" width="64px" 
+                            fill="#1" class="mb-3" style="color: oklch(87.2% .01 258.338);">
+                                <path d="M160-120q-33 0-56.5-23.5T80-200v-440q0-33 23.5-56.5T160-720h160v-80q0-33
+                                23.5-56.5T400-880h160q33 0 56.5 23.5T640-800v80h160q33 0 56.5 23.5T880-640v440q0 33-23.5 
+                                56.5T800-120H160Zm240-600h160v-80H400v80Zm-160 
+                                80h-80v440h80v-440Zm400 440v-440H320v440h320Zm80-440v440h80v-440h-80ZM480-420Z"
+                                fill="currentColor" class="card-icon-border-blue"/>
+                            </svg>
+                            <h5>No applications yet</h5>
+                            <p>Start tracking your job applications by adding your first one</p>
+                        </div>
+                    } @else {
+                        @for (job of jobs; track job._id) {
+                            <div class="dashboard-applications-body-content">
+                                <div class="dashboard-applications-body-content-top">
+                                    <div class="dashboard-applications-body-content-top-left">
+                                        <div class="dashboard-applications-body-content-header">
+                                            <div class="dashboard-applications-body-content-header-icon">
+                                                <mat-icon>account_balance</mat-icon>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="dashboard-applications-body-content-data">
-                                        <h3>{{job.position}}</h3>
-                                        <p>{{job.company_name}}</p>
-                                        <div class="dashboard-applications-body-content-data-details">
-                                            <div class="dashboard-applications-body-content-data-date">
-                                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" 
-                                                viewBox="0 -960 960 960" width="24px" fill="#1f1f1f">
-                                                    <path d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 
-                                                    23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 
-                                                    56.5 23.5T840-720v560q0 33-23.5 
-                                                    56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Z"/>
-                                                </svg>
-                                                <p>
-                                                    {{job.date_sent | date: 'dd/MM/yyyy'}}
-                                                </p>
-                                            </div>
-                                            <div class="dashboard-applications-body-content-data-location">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round" class="lucide lucide-map-pin w-4 h-4">
-                                                    <path d="M20 10c0 4.993-5.539 10.193-7.399 
-                                                    11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 
-                                                    14.993 4 10a8 8 0 0 1 16 0">
-                                                    </path>
-                                                    <circle cx="12" cy="10" r="3"></circle>
-                                                </svg>                                                
-                                                <p>
-                                                    {{job.location}}
-                                                </p>
-                                            </div>
-                                            @if (job.min_salary && job.max_salary) {
-                                                <div class="dashboard-applications-body-content-data-salary">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
-                                                    viewBox="0 0 24 24" fill="none" 
-                                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" 
-                                                    stroke-linejoin="round" class="lucide lucide-dollar-sign w-4 h-4">
-                                                        <line x1="12" x2="12" y1="2" y2="22"></line>
-                                                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                                                    </svg>                                               
+                                        <div class="dashboard-applications-body-content-data">
+                                            <h3>{{job.position}}</h3>
+                                            <p>{{job.company_name}}</p>
+                                            <div class="dashboard-applications-body-content-data-details">
+                                                <div class="dashboard-applications-body-content-data-date">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" 
+                                                    viewBox="0 -960 960 960" width="24px" fill="#1f1f1f">
+                                                        <path d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 
+                                                        23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 
+                                                        56.5 23.5T840-720v560q0 33-23.5 
+                                                        56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Z"/>
+                                                    </svg>
                                                     <p>
-                                                        {{job.min_salary}} - {{job.max_salary}}
+                                                        {{job.date_sent | date: 'dd/MM/yyyy'}}
                                                     </p>
                                                 </div>
-                                            }
+                                                <div class="dashboard-applications-body-content-data-location">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round" class="lucide lucide-map-pin w-4 h-4">
+                                                        <path d="M20 10c0 4.993-5.539 10.193-7.399 
+                                                        11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 
+                                                        14.993 4 10a8 8 0 0 1 16 0">
+                                                        </path>
+                                                        <circle cx="12" cy="10" r="3"></circle>
+                                                    </svg>                                                
+                                                    <p>
+                                                        {{job.location}}
+                                                    </p>
+                                                </div>
+                                                @if (job.min_salary && job.max_salary) {
+                                                    <div class="dashboard-applications-body-content-data-salary">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
+                                                        viewBox="0 0 24 24" fill="none" 
+                                                        stroke="currentColor" stroke-width="2" stroke-linecap="round" 
+                                                        stroke-linejoin="round" class="lucide lucide-dollar-sign w-4 h-4">
+                                                            <line x1="12" x2="12" y1="2" y2="22"></line>
+                                                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                                                        </svg>                                               
+                                                        <p>
+                                                            {{job.min_salary}} - {{job.max_salary}}
+                                                        </p>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="dashboard-applications-body-content-top-right">
+                                        <div class="dashboard-applications-body-content-top-right-status-container"
+                                        [ngClass]="determineStatusContainerColor(job.status)">
+                                            {{job.status}}
                                         </div>
                                     </div>
                                 </div>
-                                <div class="dashboard-applications-body-content-top-right">
-                                    <div class="dashboard-applications-body-content-top-right-status-container"
-                                    [ngClass]="determineStatusContainerColor(job.status)">
-                                        {{job.status}}
-                                    </div>
-                                </div>
-                            </div>
-                            <hr style="color: gainsboro">
-                            <div class="dashboard-applications-body-content-btns">
-                                <button class="dashboard-applications-body-content-btns-edit-btn" 
-                                (click)="showAddModalInEditMode($event, job)">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" 
-                                    fill="none" 
-                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
-                                    class="lucide lucide-pen w-4 h-4" 
-                                    aria-hidden="true" 
-                                    data-fg-dsni125=":6.2308:/components/Dashboard.tsx:282:29:13033:29:e:Edit2::::::Ca4I">
-                                        <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 
-                                            2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z">
+                                <hr style="color: gainsboro">
+                                <div class="dashboard-applications-body-content-btns">
+                                    <button class="dashboard-applications-body-content-btns-edit-btn" 
+                                    (click)="showAddModalInEditMode($event, job)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" 
+                                        fill="none" 
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
+                                        class="lucide lucide-pen w-4 h-4" 
+                                        aria-hidden="true" 
+                                        data-fg-dsni125=":6.2308:/components/Dashboard.tsx:282:29:13033:29:e:Edit2::::::Ca4I">
+                                            <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 
+                                                2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z">
+                                            </path>
+                                        </svg>
+                                        Edit
+                                    </button>
+                                    <button (click)="deleteJobApp(data._id, job._id)" 
+                                    class="dashboard-applications-body-content-btns-delete-btn">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" 
+                                        height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
+                                        class="lucide lucide-trash2 lucide-trash-2 w-4 h-4" 
+                                        aria-hidden="true" 
+                                        data-fg-dsni128=":6.2308:/components/Dashboard.tsx:289:29:13438:30:e:Trash2::::::c98">
+                                        <path d="M10 11v6"></path><path d="M14 11v6"></path>
+                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6">
+                                        </path><path d="M3 6h18"></path><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
                                         </path>
                                     </svg>
-                                    Edit
-                                </button>
-                                <button (click)="deleteJobApp(data._id, job._id)" 
-                                class="dashboard-applications-body-content-btns-delete-btn">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" 
-                                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
-                                    class="lucide lucide-trash2 lucide-trash-2 w-4 h-4" 
-                                    aria-hidden="true" 
-                                    data-fg-dsni128=":6.2308:/components/Dashboard.tsx:289:29:13438:30:e:Trash2::::::c98">
-                                    <path d="M10 11v6"></path><path d="M14 11v6"></path>
-                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6">
-                                    </path><path d="M3 6h18"></path><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
-                                    </path>
-                                </svg>
-                                    Delete
-                                </button>
+                                        Delete
+                                    </button>
+                                </div>
                             </div>
-                        </div>
+                        }
                     }
+                    </ng-container>
+                }
                 </div>
-            } @else {
+            <!-- @else {
                 <p>Empty</p>
-            }
+            } -->
         </section>
     </div>
 </div>

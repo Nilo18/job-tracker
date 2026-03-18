@@ -48,7 +48,7 @@ export class JobService {
   // query=Frontend Developer&page=1&num_pages=1&country=georgia
   private baseUrl = 'http://localhost:3000/api'
   private http = inject(HttpClient)
-  public jobsSubject: BehaviorSubject<any> = new BehaviorSubject<JobApplication[]>([])
+  public jobsSubject: BehaviorSubject<any> = new BehaviorSubject<JobApplication[] | null>(null)
   public jobsObs$ = this.jobsSubject.asObservable()
   private total: number = 0
 
@@ -77,6 +77,7 @@ export class JobService {
       console.log('The job applications are: ', res)
       console.log("The jobs inside the GET response are: ", res.jobs)
       this.total = res.jobs.length
+      console.log("Total in jobsService is: ", this.total)
       this.jobsSubject.next(res.jobs)
       return res
     } catch (error) {
@@ -89,8 +90,10 @@ export class JobService {
     try {
       const res = await firstValueFrom(this.http.post<EditedApplicationResponse>(`${this.baseUrl}/jobs`, newApplication))
       console.log('The new job was added to the database: ', res)
-      const current = this.jobsSubject.getValue()
+      const current = this.jobsSubject.getValue()?? []
       this.jobsSubject.next([...current, res.jobApp])
+      this.total = [...current, res.jobApp].length
+      console.log("Readjusted total: ", this.total)
       return res
     } catch (error) {
       console.log("Couldn't add job application: ", error)
@@ -117,9 +120,11 @@ export class JobService {
     try {
       const body = {userId: userId, id: id}
       const res = await firstValueFrom(this.http.delete<EditedApplicationResponse>(`${this.baseUrl}/jobs`, {body}))
-      const current = this.jobsSubject.getValue()
+      const current = this.jobsSubject.getValue() ?? []
       const newTasks = current.filter((job: any) => job._id !== id)
       this.jobsSubject.next(newTasks)
+      this.total = newTasks.length
+      console.log("Readjusted total: ", this.total)
       console.log(res)
       return res.jobApp
     } catch (error) {
@@ -129,6 +134,7 @@ export class JobService {
   }
 
   getTotal() {
+    console.log("Returning total: ", this.total)
     return this.total
   }
 

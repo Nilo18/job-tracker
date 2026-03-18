@@ -26,7 +26,7 @@ export class SearchBar {
         console.log(val)
         return this.jobService.search(String(val))
       }),
-      tap(() => console.log("Received response.")),
+      tap((jobs) => console.log("Received response: ", jobs)),
     )
     // this.results$.subscribe({
     //   next: (value) => {

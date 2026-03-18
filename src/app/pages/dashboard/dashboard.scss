@@ -1,7 +1,7 @@
 @use "../../styles/mixins.scss" as *;
 
 .dashboard {
-    width: 63rem;
+    width: 75rem;
     min-height: 37.5rem;
 
     .dashboard-applications {
@@ -238,6 +238,68 @@
                     
                     .dashboard-applications-body-content-btns-delete-btn:hover {
                         background-color: oklch(94.977% 0.02516 14.351);
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 899.98px) and (max-width: 1199.98px) {
+    .dashboard {
+        width: 880px;
+
+        select {
+            font-size: 14px;
+            // color: red;
+        }
+    }
+}
+
+@media (min-width: 599.98px) and (max-width: 899.98px) {
+    .dashboard {
+        width: 590px;
+
+        .dashboard-applications {
+            .dashboard-applications-header {
+                height: auto;
+                width: 100%;
+
+                .dashboard-applications-header-filter {
+                    flex-direction: column;
+                    height: auto;
+
+                    .dashboard-applications-header-filter-left-side,
+                    .dashboard-applications-header-filter-right-side {
+                        width: 100%; 
+
+                        input,
+                        select {
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 599.98px) {
+    .dashboard {
+        padding: 1.25rem;
+        flex: 1;
+
+        .dashboard-applications {
+            .dashboard-applications-header {
+                height: auto;
+
+                .dashboard-applications-header-interactions {
+                    flex-direction: column;
+                    height: auto;
+                    gap: 5px;
+
+                    .dashboard-applications-header-interactions-btn {
+                        width: 100%;
                     }
                 }
             }

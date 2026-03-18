@@ -20,7 +20,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { JobApplicationAddModal } from './components/job-application-add-modal/job-application-add-modal';
 import { DashboardStats } from './components/dashboard-stats/dashboard-stats';
 import { Callback } from './pages/callback/callback';
-import { FacebookLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login'
+import { FacebookLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
+import { LoggedinHeader } from './components/loggedin-header/loggedin-header'
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { FacebookLoginProvider, SocialAuthServiceConfig, SocialLoginModule } fro
     Header,
     JobApplicationAddModal,
     DashboardStats,
-    Callback
+    Callback,
+    LoggedinHeader
   ],
   imports: [
     BrowserModule,

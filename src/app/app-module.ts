@@ -21,7 +21,8 @@ import { JobApplicationAddModal } from './components/job-application-add-modal/j
 import { DashboardStats } from './components/dashboard-stats/dashboard-stats';
 import { Callback } from './pages/callback/callback';
 import { FacebookLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
-import { LoggedinHeader } from './components/loggedin-header/loggedin-header'
+import { LoggedinHeader } from './components/loggedin-header/loggedin-header';
+import { NotFound } from './pages/not-found/not-found'
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { LoggedinHeader } from './components/loggedin-header/loggedin-header'
     JobApplicationAddModal,
     DashboardStats,
     Callback,
-    LoggedinHeader
+    LoggedinHeader,
+    NotFound
   ],
   imports: [
     BrowserModule,

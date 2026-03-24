@@ -9,15 +9,17 @@ import { Dashboard } from './pages/dashboard/dashboard';
 import { homeGuard } from './guards/home-guard';
 import { dashboardGuard } from './guards/dashboard-guard';
 import { Callback } from './pages/callback/callback';
+import { NotFound } from './pages/not-found/not-found';
 
 const routes: Routes = [
   {path: '', component: Home, canActivate: [homeGuard]},
-  {path: 'register', component: Register},
-  {path: 'login', component: Login},
+  // {path: 'register', component: Register},
+  {path: 'login', component: Login, canActivate: [homeGuard]},
   {path: 'search', component: SearchPage},
   {path: 'callback', component: Callback},
   {path: 'settings', component: Settings, canActivate: [dashboardGuard]},
   {path: 'dashboard', component: Dashboard, canActivate: [dashboardGuard]},
+  {path: '**', component: NotFound}
 ];
 
 @NgModule({

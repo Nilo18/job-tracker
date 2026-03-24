@@ -1,0 +1,119 @@
+:host {
+  display: block;
+  height: 100vh;
+  width: 100%;
+}
+
+.not-found-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #ffffff;
+  font-family: 'Segoe UI', sans-serif;
+  padding: 2rem;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.5rem;
+  animation: fadeUp 0.5s ease both;
+}
+
+// --- Icon ---
+.icon-wrapper {
+  margin-bottom: 0.5rem;
+}
+
+.icon-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: #efefef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.file-icon {
+  width: 52px;
+  height: 52px;
+}
+
+// --- Error block: big faded "404" behind the title ---
+.error-block {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.error-number {
+  font-size: 9rem;
+  font-weight: 800;
+  color: #e8e8e8;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  user-select: none;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.error-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111111;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+}
+
+// --- Message ---
+.error-message {
+  font-size: 0.975rem;
+  color: #666666;
+  line-height: 1.7;
+  margin: 0;
+  max-width: 420px;
+}
+
+// --- CTA Button ---
+.home-btn {
+  margin-top: 0.5rem;
+  display: inline-block;
+  padding: 0.65rem 1.75rem;
+  background-color: #111111;
+  color: #ffffff;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+
+  &:hover {
+    background-color: #333333;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// --- Animation ---
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

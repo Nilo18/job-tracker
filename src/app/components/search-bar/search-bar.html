@@ -1,15 +1,18 @@
-<input type="text" class="form-control" placeholder="Search for jobs..." [formControl]="queryControl">
+<div class="search-bar-component">
+  <input type="text" class="form-control" placeholder="Search for jobs..." [formControl]="queryControl">
 
-@if (queryVal !== '') {
-  <div class="search-results" *ngIf="results$ | async as results">
-    @if (results.data.length === 0) {
-      <p>No results found.</p>
-    }
+  @if (queryVal !== '') {
+    <div class="search-results" *ngIf="results$ | async as results">
+      @if (results.data.length === 0) {
+        <p>No results found.</p>
+      }
 
-    @for (job of results.data; track job.id) {
-      <div class="search-result">
-        <a [href]="job.url">{{ job.role }} — {{ job.company_name }}</a>
-      </div>
-    }  
-  </div>  
-}
+      @for (job of results.data; track job.id) {
+        <div class="search-result">
+          <a [href]="job.url">{{ job.role }} — {{ job.company_name }}</a>
+        </div>
+      }  
+    </div>  
+  }
+</div>
+

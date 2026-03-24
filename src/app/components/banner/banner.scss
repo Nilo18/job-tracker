@@ -1,40 +1,208 @@
-@use '../../styles/mixins.scss' as *;
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap');
 
-.banner {
-    width: 100%; // Change to 100% in the future maybe
-    height: 100vh;
-    background-image: url('/assets/jtbanner.png');
-    background-repeat: no-repeat;
-    background-size: cover;
-    @include FlexContainer;
+:host {
+  display: block;
+  width: 100%;
+}
 
-    .banner-content {
-        @include FlexContainerColumn;
-        gap: 10px;
-        color: white;
-        // word-wrap: break-word;
-        text-align: center;
+$blue:   #3b6ff5;
+$purple: #8b5cf6;
+$green:  #22c55e;
+$text-dark: #0f172a;
+$text-muted: #64748b;
 
-        h1 {
-            font-size: clamp(2.5rem, 6vw, 5rem);
-        }
+.hero {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+//   margin-bottom: 1000px;
 
-        p {
-            font-size: clamp(1.25rem, 3vw, 2rem);
-        }
+  background:
+    radial-gradient(ellipse 80% 60% at 10% 50%, #dce8fb 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 90% 50%, #e0e8f8 0%, transparent 55%),
+    #f0f4fc;
 
-        .banner-content-button {
-            width: 200px;
-            height: 53px;
-            border: none;
-            background-color: rgb(198 63 95);
-            color: white;
-            font-weight: bold;
-            transition: 0.15s ease-in-out;
-        }
-        
-        .banner-content-button:hover {
-            background-color: rgb(164, 53, 79);
-        }
+  font-family: 'Manrope', sans-serif;
+  padding: 4rem 1.5rem;
+}
+
+.hero__inner {
+  max-width: 860px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.5rem;
+}
+
+.hero__badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 1.1rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(150, 170, 220, 0.35);
+  backdrop-filter: blur(6px);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: $text-dark;
+  letter-spacing: 0.01em;
+  box-shadow: 0 1px 4px rgba(100, 120, 200, 0.1);
+}
+
+// ─── Headline ────────────────────────────────────────────────────
+.hero__headline {
+  font-size: clamp(2.8rem, 6vw, 4.5rem);
+  font-weight: 800;
+  color: $text-dark;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+
+// ─── Subheadline ─────────────────────────────────────────────────
+.hero__sub {
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: $text-muted;
+  margin: 0;
+  letter-spacing: 0.01em;
+}
+
+// ─── CTA Actions ─────────────────────────────────────────────────
+.hero__actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.8rem;
+  border-radius: 10px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+  border: none;
+  white-space: nowrap;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  // Primary — blue-to-purple gradient
+  &--primary {
+    background: linear-gradient(135deg, #5b6ef5 0%, #8b4cf7 100%);
+    color: #fff;
+    box-shadow: 0 4px 20px rgba(120, 80, 240, 0.35);
+
+    &:hover {
+      box-shadow: 0 8px 28px rgba(120, 80, 240, 0.45);
+      filter: brightness(1.06);
     }
+  }
+
+  // Secondary — white card
+  &--secondary {
+    background: #ffffff;
+    color: $text-dark;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.14);
+    }
+  }
+}
+
+.btn__arrow {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+// ─── Stats ───────────────────────────────────────────────────────
+.hero__stats {
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 1.25rem;
+  width: 100%;
+}
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(200, 215, 240, 0.5);
+  border-radius: 14px;
+  padding: 1.5rem 2.5rem;
+  box-shadow: 0 2px 16px rgba(100, 130, 200, 0.08);
+  flex: 1 1 160px;
+  max-width: 220px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(100, 130, 200, 0.14);
+  }
+
+    .stat-card__value {
+        font-size: 2.25rem;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1;
+
+        &--blue   { color: $blue; }
+        &--purple { color: $purple; }
+        &--green  { color: $green; }
+    }
+
+    .stat-card__label {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: $text-muted;
+    }
+}
+
+// ─── Responsive ──────────────────────────────────────────────────
+@media (max-width: 600px) {
+  .hero__actions {
+    flex-direction: column;
+    width: 100%;
+
+    .btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  .hero__stats {
+    flex-direction: column;
+    align-items: center;
+
+    .stat-card {
+      width: 100%;
+      max-width: 320px;
+    //   height: 200px;
+    }
+  }
 }

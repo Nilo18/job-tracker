@@ -21,8 +21,6 @@ export class DashboardStats {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['jobs$'] && this.jobs$) {
-      console.log("jobs observable: ", this.jobs$)
-      console.log("stats observable: ", this.stats$)
       this.stats$ = this.jobs$.pipe(
         map(jobs =>
           jobs.reduce((acc: any, job) => {

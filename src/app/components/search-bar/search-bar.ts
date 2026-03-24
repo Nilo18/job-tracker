@@ -18,24 +18,13 @@ export class SearchBar {
 
   ngOnInit() {
     this.results$ = this.queryControl.valueChanges.pipe(
-      tap(() => console.log("Sending request...")),
       debounceTime(150),
       distinctUntilChanged(),
       filter(val => !!val && val.trim() !== ''),
       switchMap(val => {
-        console.log(val)
         return this.jobService.search(String(val))
       }),
-      tap((jobs) => console.log("Received response: ", jobs)),
     )
-    // this.results$.subscribe({
-    //   next: (value) => {
-    //     // Here, 'value' is the actual data
-    //     console.log('Observable value:', value);
-    //   },
-    //   error: (err) => console.error('An error occurred:', err),
-    //   complete: () => console.log('Observable completed'),
-    // });
   }
 
   get queryVal() {

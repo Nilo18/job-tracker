@@ -1,0 +1,21 @@
+<section class="features">
+  <div class="features__header">
+    <h2 class="features__title">Everything you need to land your dream job</h2>
+    <p class="features__sub">Powerful features to keep your job search organized</p>
+  </div>
+
+  <div class="features__grid">
+    @for (feature of features; track feature.title) {
+      <div class="feature-card">
+        <div class="feature-card__icon" [style.background]="feature.iconBg">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path [attr.d]="feature.iconPath" [attr.stroke]="feature.iconColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3 class="feature-card__title">{{ feature.title }}</h3>
+        <p class="feature-card__desc">{{ feature.desc }}</p>
+      </div>
+    }
+  </div>
+</section>

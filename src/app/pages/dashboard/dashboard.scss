@@ -107,6 +107,11 @@
             gap: 1rem;
             border-color: oklch(0.872 0.01 258.338);
 
+            h3, p {
+                word-break: break-all;
+            }
+
+
             .dashboard-applications-body-content {
                 width: 100%;
                 height: auto;

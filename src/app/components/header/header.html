@@ -1,9 +1,11 @@
-<header class="header" style="background-color: white">
-    <img class="header-logo" src="/assets/headerLogo2.png" 
-    alt="Header logo" draggable="false">
-    <div class="header-login" routerLink="/login">
-        <img src="/assets/profIcon.png" alt="Profile icon" draggable="false">
-        <p>Login</p>
-    </div>
-</header>
+<header class="navbar" [class.scrolled]="isScrolled">
+  <div class="navbar__brand">
+    <div class="navbar__logo">JF</div>
+    <span class="navbar__name">JobFlow</span>
+  </div>
 
+  <nav class="navbar__actions">
+    <a routerLink="/login" class="navbar__cta">Login</a>
+    <!-- <a routerLink="/register" class="">Get Started</a> -->
+  </nav>
+</header>

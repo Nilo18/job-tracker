@@ -24,8 +24,6 @@ export class Callback {
     if (isPlatformBrowser(this.platformId)) {
       const params = new URLSearchParams(window.location.search);
       const returnedState = params.get('state')
-      // const savedState = sessionStorage.getItem('oauth_state')
-      console.log('1. Callback updated status')
 
       // If state isn't present 
       // the navigation on this page is being done manually without login,
@@ -36,13 +34,8 @@ export class Callback {
         return
       }
 
-      // sessionStorage.removeItem('oauth_state');
-
       const code = params.get('code');
       const codeVerifier = sessionStorage.getItem('PKCE_verifier');
-      console.log("params are: ", params)
-      console.log("The code is: ", code)
-      console.log("The code verifier is: ", codeVerifier)
 
       if (code && codeVerifier) {
         try {
@@ -55,7 +48,6 @@ export class Callback {
           this.authService.updateAuthStatus(true)
           this.router.navigate(['/dashboard']); 
         } catch (err) {
-          console.log("Failed to receive auth token: ", err)
           this.router.navigate(['/']); // Handle error
         }
       }

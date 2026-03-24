@@ -30,7 +30,6 @@ export class JobApplicationAddModal {
     this.token = localStorage.getItem('jobF_token')
 
     if (this.company_name && this.date_sent && this.status) {
-      console.log("date_sent was received as: ", this.date_sent)
       this.btnText = 'Save Changes'
     }
 
@@ -46,16 +45,12 @@ export class JobApplicationAddModal {
         max_salary: [this.max_salary || '', [Validators.max(10000000)]],
         status: [this.status || 'Pending', [Validators.required]]
       })
-      console.log(typeof this.jobappform.value.date_sent)
     } else {
-      console.log("Failed to found token at localStorage.")
     }
   }
 
   async onSubmit() {
     if (this.token && this.decodedToken) {
-      console.log(typeof this.jobappform.value.date_sent)
-      console.log(this.jobappform.value)
       if (!this.company_name && !this.date_sent && !this.status && !this.id) {
         await this.jobsService.addJobApplication(this.jobappform.value)
       } else {
@@ -64,11 +59,7 @@ export class JobApplicationAddModal {
           newObject: this.jobappform.value
         }
     
-        console.log("The final body before sending the request is: ", body)
-        console.log('jobappForm value is: ', body.newObject)
-
         const res = await this.jobsService.updateJobApplication(body)
-        console.log("Received response after updating job application: ", res)
       }
     }
   }

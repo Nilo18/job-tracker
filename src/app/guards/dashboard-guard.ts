@@ -8,19 +8,6 @@ export const dashboardGuard: CanActivateFn = (route, state) => {
   const platformId = inject(PLATFORM_ID)
   const router = inject(Router)
   const googleApiService = inject(GoogleApiService)
-
-  // if (isPlatformBrowser(platformId)) {
-  //   console.log("Running inside browser")
-  //   const token = localStorage.getItem('jobF_token')
-  //   if (!token) {
-  //     console.log("aaa")
-  //     return router.createUrlTree(['/'])
-  //   } 
-
-  //   return true
-  // }
-  
-  console.log('2. Guard checking status')
   if (!isPlatformBrowser(platformId)) {
     return true; 
   }

@@ -36,16 +36,12 @@ export interface EditedApplicationResponse {
 export interface ApplicationUpdateProperties {
   id: string
   newObject: JobApplication
-  // newObject: 
-  // field: string,
-  // newValue: string | null
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class JobService {
-  // query=Frontend Developer&page=1&num_pages=1&country=georgia
   private baseUrl = 'http://localhost:3000/api'
   private http = inject(HttpClient)
   public jobsSubject: BehaviorSubject<any> = new BehaviorSubject<JobApplication[] | null>(null)
@@ -53,9 +49,7 @@ export class JobService {
   private total: number = 0
 
   search(query: string): Observable<any> {
-    console.log(query)
     if (query.trim() === '') {
-      console.log('Empty query detected, avoiding request.')
       return EMPTY
     }
 
@@ -67,21 +61,16 @@ export class JobService {
 
   async getJobApplications(userId: string, keyword?: string, filter?: string) {
     try {
-      console.log('Sending to this url: ', `${this.baseUrl}/jobs/${userId}`)
       const res = await firstValueFrom(this.http.get<JobApplicationResponse>(`${this.baseUrl}/jobs/${userId}`, {
         params: {
           keyword: keyword ?? '',
           filter: filter ?? ''
         }
       }))
-      console.log('The job applications are: ', res)
-      console.log("The jobs inside the GET response are: ", res.jobs)
       this.total = res.jobs.length
-      console.log("Total in jobsService is: ", this.total)
       this.jobsSubject.next(res.jobs)
       return res
     } catch (error) {
-      console.log("Couldn't get job applications: ", error)
       throw error
     }
   }
@@ -89,14 +78,11 @@ export class JobService {
   async addJobApplication(newApplication: JobApplication) {
     try {
       const res = await firstValueFrom(this.http.post<EditedApplicationResponse>(`${this.baseUrl}/jobs`, newApplication))
-      console.log('The new job was added to the database: ', res)
       const current = this.jobsSubject.getValue()?? []
       this.jobsSubject.next([...current, res.jobApp])
       this.total = [...current, res.jobApp].length
-      console.log("Readjusted total: ", this.total)
       return res
     } catch (error) {
-      console.log("Couldn't add job application: ", error)
       throw error
     }
   }
@@ -104,14 +90,10 @@ export class JobService {
   async updateJobApplication(properties: ApplicationUpdateProperties) {
     try {
       const res = await firstValueFrom(this.http.put<EditedApplicationResponse>(`${this.baseUrl}/jobs`, properties))
-      console.log(res)
-      const old = this.jobsSubject.getValue().find((job: JobApplication) => job._id === properties.newObject._id)
       const updated = this.jobsSubject.getValue().map((job: JobApplication) => job._id === res.jobApp._id ? res.jobApp : job)
       this.jobsSubject.next(updated)
-      console.log('The job application that was edited was: ', old)
       return res.jobApp
     } catch (error) {
-      console.log("Couldn't update job application: ", error)
       throw error
     }
   }
@@ -124,37 +106,13 @@ export class JobService {
       const newTasks = current.filter((job: any) => job._id !== id)
       this.jobsSubject.next(newTasks)
       this.total = newTasks.length
-      console.log("Readjusted total: ", this.total)
-      console.log(res)
       return res.jobApp
     } catch (error) {
-      console.log("Couldn't delete job application: ", error)
       throw error
     }
   }
 
   getTotal() {
-    console.log("Returning total: ", this.total)
     return this.total
   }
-
-  // async searchJobs(userId: string, keyword?: string, filter?: string) {
-  //   if (!userId) {
-  //     console.log('userId needed.')
-  //     return  
-  //   }
-    
-  //   const obs: Observable<any> = this.http.get<any>(`${this.baseUrl}/jobs/${userId}`, {
-  //     params: {
-  //       keyword: keyword ?? '',
-  //       filter: filter ?? ''
-  //     }
-  //   })
-
-  //   const obsData = await firstValueFrom(obs)
-  //   this.jobsSubject.next(obsData.jobs)
-  //   this.total = obsData.jobs.length
-
-  //   // return obs
-  // }
 }

@@ -26,7 +26,6 @@ export class Dashboard {
   statusSelect = new FormControl('all', {nonNullable: true})
   searchVal: string = ''
   statusVal: string = ''
-  // getResponse: any
   jobTotal!: number
   isLoading: boolean = true
 
@@ -36,64 +35,39 @@ export class Dashboard {
 
   async ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
-      console.log("isLoading is: ", this.isLoading)
       const token = localStorage.getItem('jobF_token')
       window.history.replaceState({}, document.title, window.location.pathname);
       if (token) {
-        console.log("Cleared URL input")
         const data = jwtDecode(token)
         this.data = data
         this.showLoggedInHeader = true
-        console.log("Decoded token is: ", this.data)
       }
 
       this.searchBar.valueChanges.pipe(
-        tap(() => {
-          console.log("Search bar value is: ", this.searchBar.value)
-        }),
         debounceTime(300),
       ).subscribe(val => {
-        console.log("RUNNING INSIDE SUBSCRIBE")
         this.searchVal = val
         this.jobsService.getJobApplications(this.data._id, this.searchVal, this.statusVal)
         this.jobTotal = this.jobsService.getTotal()
-        // this.isLoading = false
-        console.log("jobsTotal is: ", this.jobTotal)
       })
 
-      this.statusSelect.valueChanges.pipe(
-        tap(() => {
-          console.log("Status select value is: ", this.statusSelect.value)
-        })
-      ).subscribe(val => {
-        console.log("RUNNING INSIDE SUBSCRIBE")
+      this.statusSelect.valueChanges.subscribe(val => {
         this.statusVal = val;
         this.jobsService.getJobApplications(this.data._id, this.searchVal, this.statusVal)
         this.jobTotal = this.jobsService.getTotal()
-        // this.isLoading = false
-        console.log("jobsTotal is: ", this.jobTotal)
       })
   }
     
-    console.log("_id is: ", this.data._id)
-    console.log("RUNNING OUTSIDE SUBSCRIBE")
     this.jobsService.getJobApplications(this.data._id)
-    console.log("jobs observable in the service: ", this.jobsService.jobsObs$)
     this.jobs$ = this.jobsService.jobsObs$.pipe(
-      // startWith([]),
       filter((jobs): jobs is JobApplication[] => jobs !== null),
       tap(jobs => { 
-        console.log("isLoading is: ", this.isLoading)
-        console.log(`The jobs are: `, jobs)
         this.jobTotal = jobs.length
         this.isLoading = false
-        console.log("isLoading is: ", this.isLoading)
-        // console.log("jobsTotal is: ", this.jobTotal)
       }),
     );
     
     this.cd.detectChanges()
-    console.log("jobs observable in dashboard: ", this.jobs$)
   }
 
   showAddModal(event: MouseEvent) {
@@ -127,7 +101,6 @@ export class Dashboard {
   }
 
   async deleteJobApp(userId: string, id: string | undefined) {
-    console.log("I run")
     const res = await this.jobsService.deleteJobApplication(userId, id)
   }
 

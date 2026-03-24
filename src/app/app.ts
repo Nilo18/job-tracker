@@ -9,9 +9,4 @@ import { OAuthService } from 'angular-oauth2-oidc';
 })
 export class App {
   protected readonly title = signal('jobtracker');
-
-  // constructor(private oauthService: OAuthService) {
-  //   // this.oauthService.configure(oAuthConfig);
-  //   // this.oauthService.loadDiscoveryDocumentAndTryLogin();
-  // }
 }

@@ -34,7 +34,6 @@ export class GoogleApiService {
   public isAuthenticated$ = this.loggedIn.asObservable()
 
   constructor(private oauthService: OAuthService) {
-    console.log("I run inside the constructor")
     this.oauthService.configure(oAuthConfig);
     this.oauthService.loadDiscoveryDocument();
 
@@ -53,14 +52,9 @@ export class GoogleApiService {
 
   async authWithGoogle() {
     try {
-      // this.loggedIn.next(true)
-      // Generate and pass a custom state to oauth to guard against manual navigation to callback and token farming
-      // const state = Math.random().toString(36).substring(7)
-      // sessionStorage.setItem('oauth_state', state)
       this.oAuthService.initCodeFlow()
     } catch (error) {
       this.loggedIn.next(false)
-      console.log("Couldn't auth with google: ", error)
     }
   }
 

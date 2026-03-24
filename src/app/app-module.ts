@@ -22,7 +22,10 @@ import { DashboardStats } from './components/dashboard-stats/dashboard-stats';
 import { Callback } from './pages/callback/callback';
 import { FacebookLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
 import { LoggedinHeader } from './components/loggedin-header/loggedin-header';
-import { NotFound } from './pages/not-found/not-found'
+import { NotFound } from './pages/not-found/not-found';
+import { FeaturesSection } from './components/features-section/features-section';
+import { CtaBanner } from './components/cta-banner/cta-banner';
+import { Footer } from './components/footer/footer'
 
 @NgModule({
   declarations: [
@@ -40,7 +43,10 @@ import { NotFound } from './pages/not-found/not-found'
     DashboardStats,
     Callback,
     LoggedinHeader,
-    NotFound
+    NotFound,
+    FeaturesSection,
+    CtaBanner,
+    Footer
   ],
   imports: [
     BrowserModule,

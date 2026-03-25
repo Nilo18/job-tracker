@@ -1,4 +1,4 @@
-import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { APP_INITIALIZER, NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { BrowserModule, provideClientHydration, withEventReplay } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing-module';
@@ -14,7 +14,7 @@ import { SearchPage } from './pages/search-page/search-page';
 import { Header } from './components/header/header';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
-import { OAuthModule } from 'angular-oauth2-oidc';
+import { OAuthModule, OAuthService, provideOAuthClient } from 'angular-oauth2-oidc';
 import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { JobApplicationAddModal } from './components/job-application-add-modal/job-application-add-modal';
@@ -26,6 +26,14 @@ import { NotFound } from './pages/not-found/not-found';
 import { FeaturesSection } from './components/features-section/features-section';
 import { CtaBanner } from './components/cta-banner/cta-banner';
 import { Footer } from './components/footer/footer'
+import { getOAuthConfig } from './services/environment-detector-factory';
+
+function initOAuth(oauthService: OAuthService) {
+  return () => {
+    const config = getOAuthConfig(); // inject(DOCUMENT) works here
+    oauthService.configure(config);
+  };
+}
 
 @NgModule({
   declarations: [
@@ -61,7 +69,18 @@ import { Footer } from './components/footer/footer'
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideClientHydration(withEventReplay()),
+    provideOAuthClient(),
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initOAuth,
+      deps: [OAuthService],
+      multi: true
+    }
   ],
   bootstrap: [App]
 })
 export class AppModule { }
+// function getOAuthConfig() {
+//   throw new Error('Function not implemented.');
+// }
+

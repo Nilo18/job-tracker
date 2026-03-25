@@ -9,6 +9,7 @@ import { debounceTime, filter, firstValueFrom, map, Observable, skip, startWith,
 import { FormControl } from '@angular/forms';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { HttpClient } from '@angular/common/http';
+import { getOAuthConfig } from '../../services/environment-detector-factory';
 
 @Component({
   selector: 'app-dashboard',

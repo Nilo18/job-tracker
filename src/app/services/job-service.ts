@@ -63,7 +63,7 @@ export class JobService {
 
   async getJobApplications(userId: string, keyword?: string, filter?: string) {
     try {
-      const res = await firstValueFrom(this.http.get<JobApplicationResponse>(`${this.baseUrl}/jobs/${userId}`, {
+      const res = await firstValueFrom(this.http.get<JobApplicationResponse>(`${this.baseUrl}/api/jobs/${userId}`, {
         params: {
           keyword: keyword ?? '',
           filter: filter ?? ''

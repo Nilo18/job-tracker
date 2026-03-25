@@ -22,7 +22,7 @@ export class Dashboard {
   showLoggedInHeader: boolean = false
   showModal: boolean = false
   jobs$!: Observable<JobApplication[]>;
-  baseURL: string = "http://localhost:3000"
+  // baseURL: string = "http://localhost:3000"
   searchBar = new FormControl()
   statusSelect = new FormControl('all', {nonNullable: true})
   searchVal: string = ''

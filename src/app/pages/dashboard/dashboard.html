@@ -1,8 +1,6 @@
-<!-- @if (jobs$ | async) { -->
 <app-loggedin-header [userData]="data"></app-loggedin-header>
 <div class="cont">
     <div class="dashboard d-flex flex-column gap-4 mt-5">
-        <!-- <img [src]="data.picture" alt="Profile image"> -->
         <h1>Hello {{data.name}}!</h1>
         <app-dashboard-stats [jobs$]="jobs$"></app-dashboard-stats>
         <section class="dashboard-applications">

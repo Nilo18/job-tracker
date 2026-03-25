@@ -3,9 +3,7 @@ import { AuthConfig } from "angular-oauth2-oidc";
 
 export const getOAuthConfig = (): AuthConfig => {
     const document = inject(DOCUMENT)
-    console.log("The host is: ", document.location.host)
     const isLocalhost = document.location.host === 'localhost:4200' || document.location.host === '127.0.0.1'
-    console.log("isLocalHost is: ", isLocalhost)
 
     return {
         issuer: 'https://accounts.google.com',

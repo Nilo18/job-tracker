@@ -12,7 +12,9 @@ import { SocialLoginModule, SocialAuthServiceConfig, FacebookLoginProvider } fro
         providers: [
           { id: FacebookLoginProvider.PROVIDER_ID, provider: new FacebookLoginProvider('YOUR_FB_APP_ID') }
         ],
-        onError: err => console.error(err)
+        onError: err => {
+          throw err;
+        }
       } as SocialAuthServiceConfig
     }
   ]

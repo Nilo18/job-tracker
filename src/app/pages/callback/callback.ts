@@ -21,17 +21,12 @@ export class Callback {
   private http = inject(HttpClient)
   private baseURL = this.environmentDetector.getBackendBaseURL()
 
- // callback.component.ts
   async ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
       const params = new URLSearchParams(window.location.search);
       const returnedState = params.get('state')
 
-      // If state isn't present 
-      // the navigation on this page is being done manually without login,
-      // In this case force the user back to home to avoid token farming
       if (!returnedState) {
-        console.error("RETURNED STATE MISSING, NAVIGATING BACK TO HOME.", returnedState)
         this.router.navigate(['/'])
         return
       }

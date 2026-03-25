@@ -80,7 +80,4 @@ function initOAuth(oauthService: OAuthService) {
   bootstrap: [App]
 })
 export class AppModule { }
-// function getOAuthConfig() {
-//   throw new Error('Function not implemented.');
-// }
 

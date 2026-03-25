@@ -37,9 +37,7 @@ export class GoogleApiService {
   public isAuthenticated$ = this.loggedIn.asObservable()
 
   constructor(private oauthService: OAuthService) {
-    // this.oauthService.configure(oAuthConfig);
     this.baseURL = this.environmentDetector.getBaseURL()
-    console.log("The baseURL is: ", this.baseURL)
     this.oauthService.loadDiscoveryDocument();
 
     if (isPlatformBrowser(this.platformId)) {

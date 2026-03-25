@@ -1,11 +1,55 @@
-<svg xmlns="http://www.w3.org" version="1.1" style="display:none">
+<svg width="100%" viewBox="0 0 680 320" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <filter id="goo">
-      <!-- 'stdDeviation' controls how much they 'melt' together -->
-      <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur" />
-      <!-- The matrix values here prevent grey outlines on white backgrounds -->
-      <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo" />
-      <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
+    <filter id="goo" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="14" result="blur"/>
+      <feColorMatrix in="blur" mode="matrix"
+        values="1 0 0 0 0
+                0 1 0 0 0
+                0 0 1 0 0
+                0 0 0 22 -10" result="goo"/>
     </filter>
   </defs>
+
+  <g filter="url(#goo)" transform="translate(340,150)">
+    <circle r="52" fill="#0060df">
+      <animateTransform attributeName="transform" type="translate"
+        values="0,0; 55,-25; -35,35; 0,0"
+        dur="6s" repeatCount="indefinite" calcMode="spline"
+        keySplines="0.4 0 0.6 1; 0.4 0 0.6 1; 0.4 0 0.6 1"/>
+      <animate attributeName="r" values="52;58;46;52" dur="6s" repeatCount="indefinite" calcMode="spline"
+        keySplines="0.4 0 0.6 1; 0.4 0 0.6 1; 0.4 0 0.6 1"/>
+    </circle>
+
+    <circle r="44" fill="#00b4d8">
+      <animateTransform attributeName="transform" type="translate"
+        values="0,0; -65,-45; 20,55; 0,0"
+        dur="4.5s" repeatCount="indefinite" calcMode="spline"
+        keySplines="0.4 0 0.6 1; 0.4 0 0.6 1; 0.4 0 0.6 1"/>
+      <animate attributeName="r" values="44;52;38;44" dur="4.5s" repeatCount="indefinite" calcMode="spline"
+        keySplines="0.4 0 0.6 1; 0.4 0 0.6 1; 0.4 0 0.6 1"/>
+    </circle>
+
+    <circle r="58" fill="#0060df">
+      <animateTransform attributeName="transform" type="translate"
+        values="0,0; 60,50; -50,-30; 0,0"
+        dur="7s" repeatCount="indefinite" calcMode="spline"
+        keySplines="0.4 0 0.6 1; 0.4 0 0.6 1; 0.4 0 0.6 1"/>
+      <animate attributeName="r" values="58;50;64;58" dur="7s" repeatCount="indefinite" calcMode="spline"
+        keySplines="0.4 0 0.6 1; 0.4 0 0.6 1; 0.4 0 0.6 1"/>
+    </circle>
+
+    <circle r="32" fill="#00edff">
+      <animateTransform attributeName="transform" type="translate"
+        values="0,0; -40,60; 70,-20; 0,0"
+        dur="5s" repeatCount="indefinite" calcMode="spline"
+        keySplines="0.4 0 0.6 1; 0.4 0 0.6 1; 0.4 0 0.6 1"/>
+      <animate attributeName="r" values="32;40;28;32" dur="5s" repeatCount="indefinite" calcMode="spline"
+        keySplines="0.4 0 0.6 1; 0.4 0 0.6 1; 0.4 0 0.6 1"/>
+    </circle>
+  </g>
+
+  <text x="340" y="262" text-anchor="middle"
+    style="font-family: Inter, sans-serif; font-size:13px; fill:#1c2b39; letter-spacing:0.08em;">
+    Loading...
+  </text>
 </svg>

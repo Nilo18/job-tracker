@@ -13,7 +13,6 @@ import { NotFound } from './pages/not-found/not-found';
 
 const routes: Routes = [
   {path: '', component: Home, canActivate: [homeGuard]},
-  // {path: 'register', component: Register},
   {path: 'login', component: Login, canActivate: [homeGuard]},
   {path: 'search', component: SearchPage},
   {path: 'callback', component: Callback},

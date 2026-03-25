@@ -10,10 +10,5 @@ import { EnvironmentDetector } from '../../services/environment-detector';
 })
 export class Home {
   constructor(private environmentDetector: EnvironmentDetector) {
-    console.log("Before checking config: ")
-    const config = getOAuthConfig()
-    console.log("The config is: ", config)
-    console.log("After checking config: ")
-    console.log("EnvirontmentDetector.isLocalhost() returned: ", this.environmentDetector.isLocalhost())
   }
 }

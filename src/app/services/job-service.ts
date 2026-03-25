@@ -79,7 +79,7 @@ export class JobService {
 
   async addJobApplication(newApplication: JobApplication) {
     try {
-      const res = await firstValueFrom(this.http.post<EditedApplicationResponse>(`${this.baseUrl}/jobs`, newApplication))
+      const res = await firstValueFrom(this.http.post<EditedApplicationResponse>(`${this.baseUrl}/api/jobs`, newApplication))
       const current = this.jobsSubject.getValue()?? []
       this.jobsSubject.next([...current, res.jobApp])
       this.total = [...current, res.jobApp].length
@@ -91,7 +91,7 @@ export class JobService {
 
   async updateJobApplication(properties: ApplicationUpdateProperties) {
     try {
-      const res = await firstValueFrom(this.http.put<EditedApplicationResponse>(`${this.baseUrl}/jobs`, properties))
+      const res = await firstValueFrom(this.http.put<EditedApplicationResponse>(`${this.baseUrl}/api/jobs`, properties))
       const updated = this.jobsSubject.getValue().map((job: JobApplication) => job._id === res.jobApp._id ? res.jobApp : job)
       this.jobsSubject.next(updated)
       return res.jobApp
@@ -103,7 +103,7 @@ export class JobService {
   async deleteJobApplication(userId: string, id: string | undefined) {
     try {
       const body = {userId: userId, id: id}
-      const res = await firstValueFrom(this.http.delete<EditedApplicationResponse>(`${this.baseUrl}/jobs`, {body}))
+      const res = await firstValueFrom(this.http.delete<EditedApplicationResponse>(`${this.baseUrl}/api/jobs`, {body}))
       const current = this.jobsSubject.getValue() ?? []
       const newTasks = current.filter((job: any) => job._id !== id)
       this.jobsSubject.next(newTasks)

@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, EMPTY, firstValueFrom, map, Observable } from 'rxjs';
+import { EnvironmentDetector } from './environment-detector';
 
 export enum JobApplicationStatus {
   Pending = 'Pending',
@@ -42,7 +43,8 @@ export interface ApplicationUpdateProperties {
   providedIn: 'root',
 })
 export class JobService {
-  private baseUrl = 'http://localhost:3000/api'
+  private environmentDetector = inject(EnvironmentDetector)
+  private baseUrl = this.environmentDetector.getBackendBaseURL()
   private http = inject(HttpClient)
   public jobsSubject: BehaviorSubject<any> = new BehaviorSubject<JobApplication[] | null>(null)
   public jobsObs$ = this.jobsSubject.asObservable()
@@ -53,7 +55,7 @@ export class JobService {
       return EMPTY
     }
 
-    return this.http.get<any>(`${this.baseUrl}/search`, {
+    return this.http.get<any>(`${this.baseUrl}/api/search`, {
       params: {keyword: query},
       headers: {'Authorization': 'Token 62d7c90c86f4ee0faeea6ffb94d8d1d77cd58a98'}
     })

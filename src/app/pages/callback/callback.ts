@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { firstValueFrom } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { EnvironmentDetector } from '../../services/environment-detector';
 
 @Component({
   selector: 'app-callback',
@@ -16,8 +17,9 @@ export class Callback {
   private route = inject(ActivatedRoute)
   private router = inject(Router)
   private platformId = inject(PLATFORM_ID)
+  private environmentDetector = inject(EnvironmentDetector)
   private http = inject(HttpClient)
-  private baseURL = 'http://localhost:3000'
+  private baseURL = this.environmentDetector.getBackendBaseURL()
 
  // callback.component.ts
   async ngOnInit() {
